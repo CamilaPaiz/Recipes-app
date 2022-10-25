@@ -4,10 +4,14 @@ import PropTypes from 'prop-types';
 import RecipeContext from './RecipeContext';
 
 function RecipeProvider({ children }) {
+  const [data, setData] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
+  // const [typeUrl, setypeUrl] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [radioFilter, setRadioFilter] = useState([]);
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -37,21 +41,71 @@ function RecipeProvider({ children }) {
     history.push('/meals');
   };
 
+  const handleSearchInput = ({ target }) => {
+    setSearchInput(target.value);
+  };
+
+  const handleRadioFilter = ({ target }) => {
+    setRadioFilter(target.value);
+  };
+
+  const handleBtnSearch = async () => {
+    const pathMealls = '/meals';
+    // const pathDrinls = '/drinks';
+    if (radioFilter === 'ingredientRadio' && pathMealls) {
+      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+      try {
+        const response = await fetch(endPointIngredient);
+        const result = await response.json();
+        console.log(result);
+        setData(result);
+      } catch (e) { throw new Error(e.message); }
+    } else if (radioFilter === 'nameRadio') {
+      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+      try {
+        const response = await fetch(endPointIngredient);
+        const result = await response.json();
+        console.log(result.meals);
+        setData(result);
+      } catch (e) { throw new Error(e.message); }
+    } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
+      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      try {
+        const response = await fetch(endPointIngredient);
+        const result = await response.json();
+        console.log(result);
+        setData(result);
+      } catch (e) { throw new Error(e.message); }
+    } else {
+      global.alert('Your search must have only 1 (one) character');
+    }
+  };
+
   const context = useMemo(() => ({
     email,
     password,
     isDisabled,
+    searchInput,
+    radioFilter,
+    data,
+    handleBtnSearch,
+    handleClick,
     handleEmail,
     handlePassword,
-    handleClick,
+    /*  verifyBtn, */
+    handleSearchInput,
+    handleRadioFilter,
+    // handleBtnSearch,
   }), [
     email,
     password,
     isDisabled,
+    searchInput,
+    radioFilter,
+    data,
     handleEmail,
     handlePassword,
-
-    handleClick,
+    /*  verifyBtn, */
   ]);
 
   return (
