@@ -1,8 +1,12 @@
 import React from 'react';
+import Header from './Header';
 
 function ProgressDrinks() {
   return (
-    <h1>Teste ProgressDrinks</h1>
+    <div>
+      <Header />
+      <h1>Teste ProgressDrinks</h1>
+    </div>
   );
 }
 

@@ -1,8 +1,12 @@
 import React from 'react';
+import Header from './Header';
 
 function DrinksId() {
   return (
-    <h1>Teste DrinksId</h1>
+    <div>
+      <Header />
+      <h1>Teste DrinksId</h1>
+    </div>
   );
 }
 
