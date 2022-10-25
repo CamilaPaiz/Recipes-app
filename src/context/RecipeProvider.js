@@ -26,12 +26,10 @@ function RecipeProvider({ children }) {
 
   const handleEmail = ({ target }) => {
     setEmail(target.value);
-    /*  verifyBtn(); */
   };
 
   const handlePassword = ({ target }) => {
     setPassword(target.value);
-    /*  verifyBtn(); */
   };
 
   const handleClick = () => {
@@ -45,7 +43,7 @@ function RecipeProvider({ children }) {
     isDisabled,
     handleEmail,
     handlePassword,
-    /*  verifyBtn, */
+
     handleClick,
   }), [
     email,
@@ -53,7 +51,7 @@ function RecipeProvider({ children }) {
     isDisabled,
     handleEmail,
     handlePassword,
-    /*  verifyBtn, */
+
     handleClick,
   ]);
 
