@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './renderWith';
 
 describe('verifica componente Login', () => {
   it('verifica componentes se inputs são renderizados', () => {
-    render(<App />);
+    renderWithRouter(<App />);
     const inputEmail = screen.getByTestId('email-input');
     expect(inputEmail).toBeInTheDocument();
 
@@ -15,7 +15,7 @@ describe('verifica componente Login', () => {
   });
 
   it('verifica se botao enter é renderizado na tela', () => {
-    render(<App />);
+    renderWithRouter(<App />);
     const button = screen.getByRole('button', { name: /enter/i });
     expect(button).toBeInTheDocument();
   });
@@ -41,5 +41,36 @@ describe('verifica componente Login', () => {
     expect(button).toBeEnabled();
     userEvent.click(button);
     expect(history.location.pathname).toBe('/meals');
+  });
+});
+
+describe('Verifica o Header', () => {
+  it('Verifica a renderização', () => {
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const buttonProfile = screen.getByRole('button', { name: 'Perfil' });
+    const buttonInput = screen.getByRole('button', { name: 'Pesquisar' });
+    const titulo = screen.getByText('Meals');
+    expect(titulo).toBeInTheDocument();
+    expect(buttonProfile).toBeInTheDocument();
+    expect(buttonInput).toBeInTheDocument();
+  });
+  it('Verifica os buttons', () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const buttonProfile = screen.getByRole('button', { name: 'Perfil' });
+    const buttonInput = screen.getByRole('button', { name: 'Pesquisar' });
+    userEvent.click(buttonInput);
+    const input = screen.getByPlaceholderText('Procure');
+    expect(input).toBeInTheDocument();
+    userEvent.click(buttonInput);
+    expect(input).not.toBeInTheDocument();
+    expect(buttonProfile).toBeInTheDocument();
+    expect(buttonInput).toBeInTheDocument();
+    userEvent.click(buttonProfile);
+    expect(history.location.pathname).toBe('/profile');
+  });
+  it('Verifica os buttons', () => {
+    renderWithRouter(<App />, { initialEntries: ['/done-recipes'] });
+    const titulo = screen.getByText('Done Recipes');
+    expect(titulo).toBeInTheDocument();
   });
 });

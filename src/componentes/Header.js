@@ -57,7 +57,7 @@ function Header() {
         ) : null}
       {input === true && (
         <div>
-          <input type="text" data-testid="search-input" />
+          <input type="text" placeholder="Procure" data-testid="search-input" />
         </div>
       )}
     </div>
