@@ -50,9 +50,13 @@ function RecipeProvider({ children }) {
   };
 
   const handleBtnSearch = async () => {
-    const pathMealls = '/meals';
+    // const endPointIngredientDrink = `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${searchInput}`;
+    /* const history = useHistory();
+    const { location } = history;
+    const localizacao = location.pathname;
+    const pathMealls = '/meals'; */
     // const pathDrinls = '/drinks';
-    if (radioFilter === 'ingredientRadio' && pathMealls) {
+    if (radioFilter === 'ingredientRadio') {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
       try {
         const response = await fetch(endPointIngredient);
