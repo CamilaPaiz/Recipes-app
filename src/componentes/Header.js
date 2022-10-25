@@ -39,7 +39,7 @@ function Header() {
               <img
                 data-testid="profile-top-btn"
                 src="../images/profileIcon.svg"
-                alt="as"
+                alt="Perfil"
               />
             </button>
             {localizacao !== 'profile'
@@ -49,7 +49,7 @@ function Header() {
                   <img
                     data-testid="search-top-btn"
                     src="../images/searchIcon.svg"
-                    alt="aas"
+                    alt="Pesquisar"
                   />
                 </button>
               ) : null}

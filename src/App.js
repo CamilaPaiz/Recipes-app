@@ -6,6 +6,15 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import RecipeProvider from './context/RecipeProvider';
 import Login from './componentes/Login';
 import Header from './componentes/Header';
+import Meals from './componentes/Meals';
+import MealsId from './componentes/MealsId';
+import Drinks from './componentes/Drinks';
+import Profile from './componentes/Profile';
+import DoneRecipes from './componentes/DoneRecipes';
+import FavoriteRecipes from './componentes/FavoriteRecipes';
+import DrinksId from './componentes/DrinksId';
+import ProgressDrinks from './componentes/ProgressDrinks';
+import ProgressMeals from './componentes/ProgressMeals';
 
 function App() {
   return (
@@ -15,15 +24,18 @@ function App() {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={ Login } />
-            <Route path="/meals" component={ App } />
-            <Route path="/drinks" component={ App } />
-            <Route path="/meals/:id-da-receita" component={ App } />
-            <Route path="/drinks/:id-da-receita" component={ App } />
-            <Route path="/meals/:id-da-receita/in-progress" component={ App } />
-            <Route path="/drinks/:id-da-receita/in-progress" component={ App } />
-            <Route path="/profile" component={ App } />
-            <Route path="/done-recipes" component={ App } />
-            <Route path="/favorite-recipes" component={ App } />
+            <Route exact path="/meals" component={ Meals } />
+            <Route path="/drinks" component={ Drinks } />
+            <Route path="/meals/:id-da-receita" component={ MealsId } />
+            <Route path="/drinks/:id-da-receita" component={ DrinksId } />
+            <Route path="/meals/:id-da-receita/in-progress" component={ ProgressMeals } />
+            <Route
+              path="/drinks/:id-da-receita/in-progress"
+              component={ ProgressDrinks }
+            />
+            <Route path="/profile" component={ Profile } />
+            <Route path="/done-recipes" component={ DoneRecipes } />
+            <Route path="/favorite-recipes" component={ FavoriteRecipes } />
           </Switch>
         </BrowserRouter>
       </RecipeProvider>
