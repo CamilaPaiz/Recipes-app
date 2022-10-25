@@ -2,19 +2,38 @@ import React from 'react';
 import './App.css';
 /* import rockGlass from './images/rockGlass.svg'; */
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import RecipeProvider from './context/RecipeProvider';
 import Login from './componentes/Login';
+import Meals from './componentes/Meals';
+import MealsId from './componentes/MealsId';
+import Drinks from './componentes/Drinks';
+import Profile from './componentes/Profile';
+import DoneRecipes from './componentes/DoneRecipes';
+import FavoriteRecipes from './componentes/FavoriteRecipes';
+import DrinksId from './componentes/DrinksId';
+import ProgressDrinks from './componentes/ProgressDrinks';
+import ProgressMeals from './componentes/ProgressMeals';
 
 function App() {
   return (
     <div>
       <RecipeProvider>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" component={ Login } />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={ Login } />
+          <Route exact path="/meals" component={ Meals } />
+          <Route path="/drinks" component={ Drinks } />
+          <Route path="/meals/:id-da-receita" component={ MealsId } />
+          <Route path="/drinks/:id-da-receita" component={ DrinksId } />
+          <Route path="/meals/:id-da-receita/in-progress" component={ ProgressMeals } />
+          <Route
+            path="/drinks/:id-da-receita/in-progress"
+            component={ ProgressDrinks }
+          />
+          <Route path="/profile" component={ Profile } />
+          <Route path="/done-recipes" component={ DoneRecipes } />
+          <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+        </Switch>
       </RecipeProvider>
     </div>
   );

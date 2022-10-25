@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import RecipeContext from '../context/RecipeContext';
+import Header from './Header';
 
 export default function Login() {
   const { email,
@@ -12,6 +13,7 @@ export default function Login() {
 
   return (
     <div>
+      <Header />
       <input
         data-testid="email-input"
         placeholder="E-mail"
