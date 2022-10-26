@@ -104,12 +104,28 @@ function RecipeProvider({ children }) {
     }
   };
 
+  const handleDrinksResults = () => {
+    const { location } = history;
+    if (data.drinks.length === 1 && location.pathname === '/drinks') {
+      history.push('/drinks/:id-da-receita');
+    }
+  };
+
+  const handleMealsResults = () => {
+    const { location } = history;
+    if (data.meals.length === 1 && location.pathname === '/meals') {
+      history.push('/meals/:id-da-receita');
+    }
+  };
+
   const handleBtnSearch = () => {
     const { location } = history;
     if (location.pathname === '/meals') {
       requestApiMeal();
+      // handleMealsResults();
     } if (location.pathname === '/drinks') {
       requestApiDrink();
+      // handleDrinksResults();
     }
   };
 
