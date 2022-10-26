@@ -208,6 +208,7 @@ function RecipeProvider({ children }) {
     data,
     mealsRecipes,
     drinkRecipes,
+    teste,
     setData,
     handleBtnSearch,
     handleClick,
