@@ -12,7 +12,8 @@ function RecipeProvider({ children }) {
   const history = useHistory();
   const [searchInput, setSearchInput] = useState('');
   const [radioFilter, setRadioFilter] = useState([]);
-  const [drinkRecipes, setDrinkRecipes] = useState([]);
+  const [mealsRecipes, setMealsRecipes] = useState([]);
+  // const [drinkRecipes, setDrinkRecipes] = useState([]);
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -50,6 +51,27 @@ function RecipeProvider({ children }) {
     setRadioFilter(target.value);
   };
 
+  const teste = (datas) => {
+    if (datas.meals !== null) {
+      if (datas.meals.length === 1) {
+        history.push(`/meals/${datas.meals[0].idMeal}`);
+      } else {
+        setMealsRecipes(data);
+      }
+    } else {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  };
+  const testeDrinks = (datas) => {
+    if (datas.drinks !== null) {
+      if (datas.drinks.length === 1) {
+        history.push(`/drinks/${datas.drinks[0].idDrink}`);
+      }
+    } else {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  };
+
   // const [data, setData] = useState([]);
 
   const requestApiMeal = async () => {
@@ -59,6 +81,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
+      teste(result);
     } else if (radioFilter === 'nameRadio') {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
 
@@ -66,6 +89,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result.meals);
       setData(result);
+      teste(result);
     } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
 
@@ -73,6 +97,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
+      teste(result);
     } else {
       global.alert('Your search must have only 1 (one) character');
     }
@@ -85,6 +110,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
+      testeDrinks(result);
     } else if (radioFilter === 'nameRadio') {
       const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
 
@@ -92,6 +118,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
+      testeDrinks(result);
     } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
       const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
 
@@ -99,36 +126,35 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
+      testeDrinks(result);
     } else {
       global.alert('Your search must have only 1 (one) character');
     }
   };
 
-  const handleDrinksResults = () => {
-    const { location } = history;
-    const NUMBER = 11;
-    if (data.drinks.length === 1 && location.pathname === '/drinks') {
-      history.push(`/drinks/${data.drinks[0].idDrink}`);
-    } else if (data.drinks.length > 1 && location.pathname === '/drinks') {
-      // setDrinkRecipes(data.drinks.slice(NUMBER));
-      console.log(data.drinks.slice(NUMBER));
-    }
-  };
+  // const handleDrinksResults = () => {
+  //   const { location } = history;
+  //   const NUMBER = 11;
+  //   if (data.drinks.length === 1 && location.pathname === '/drinks') {
+  //     history.push(`/drinks/${data.drinks[0].idDrink}`);
+  //   } else if (data.drinks.length > 1 && location.pathname === '/drinks') {
+  //     // setDrinkRecipes(data.drinks.slice(NUMBER));
+  //     console.log(data.drinks.slice(NUMBER));
+  //   }
+  // };
 
-  const handleMealsResults = () => {
-    const { location } = history;
-    if (data.meals.length === 1 && location.pathname === '/meals') {
-      history.push(`/meals/${data.meals[0].idMeal}`);
-    }
-  };
+  // const handleMealsResults = () => {
+  //   const { location } = history;
+  //   if (data.meals.length === 1 && location.pathname === '/meals') {
+  //     history.push(`/meals/${data.meals[0].idMeal}`);
+  //   }
+  // };
   const handleBtnSearch = async () => {
     const { location } = history;
     if (location.pathname === '/meals') {
       await requestApiMeal();
-      await handleMealsResults();
     } if (location.pathname === '/drinks') {
       await requestApiDrink();
-      handleDrinksResults();
     }
   };
 
@@ -169,7 +195,7 @@ function RecipeProvider({ children }) {
     searchInput,
     radioFilter,
     data,
-    drinkRecipes,
+    mealsRecipes,
     setData,
     handleBtnSearch,
     handleClick,
@@ -178,12 +204,14 @@ function RecipeProvider({ children }) {
     /*  verifyBtn, */
     handleSearchInput,
     handleRadioFilter,
+
     // handleBtnSearch,
   }), [
     email,
     password,
     isDisabled,
     searchInput,
+    mealsRecipes,
     radioFilter,
     data,
     handleEmail,

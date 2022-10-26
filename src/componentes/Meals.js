@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from './Header';
+import RecipeContext from '../context/RecipeContext';
 
 function Meals() {
+  const { data } = useContext(RecipeContext);
   return (
     <div>
       <Header />
-      <h1>Teste Meals</h1>
     </div>
   );
 }
