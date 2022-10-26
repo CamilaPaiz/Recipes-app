@@ -5,6 +5,7 @@ import RecipeContext from './RecipeContext';
 
 function RecipeProvider({ children }) {
   const [data, setData] = useState([]);
+  // const [dataD, setDataD] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,61 +50,29 @@ function RecipeProvider({ children }) {
     setRadioFilter(target.value);
   };
 
-  const handleBtnSearch = async () => {
-    if (radioFilter === 'ingredientRadio') {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'nameRadio') {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result.meals);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else {
-      global.alert('Your search must have only 1 (one) character');
-    }
-  };
+  // const [data, setData] = useState([]);
 
-  /* const requestApiMeal = async () => {
+  const requestApiMeal = async () => {
     if (radioFilter === 'ingredientRadio') {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
+      const response = await fetch(endPointIngredient);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
     } else if (radioFilter === 'nameRadio') {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result.meals);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
+
+      const response = await fetch(endPointIngredient);
+      const result = await response.json();
+      console.log(result.meals);
+      setData(result);
     } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
+
+      const response = await fetch(endPointIngredient);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
     } else {
       global.alert('Your search must have only 1 (one) character');
     }
@@ -112,6 +81,41 @@ function RecipeProvider({ children }) {
   const requestApiDrink = async () => {
     if (radioFilter === 'ingredientRadio') {
       const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+      const response = await fetch(endPointIngredient);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
+    } else if (radioFilter === 'nameRadio') {
+      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+
+      const response = await fetch(endPointIngredient);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
+    } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
+      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+
+      const response = await fetch(endPointIngredient);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
+    } else {
+      global.alert('Your search must have only 1 (one) character');
+    }
+  };
+
+  const handleBtnSearch = () => {
+    const { location } = history;
+    if (location.pathname === '/meals') {
+      requestApiMeal();
+    } if (location.pathname === '/drinks') {
+      requestApiDrink();
+    }
+  };
+
+  /* const handleBtnSearch = async () => {
+    if (radioFilter === 'ingredientRadio') {
+      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
       try {
         const response = await fetch(endPointIngredient);
         const result = await response.json();
@@ -119,7 +123,7 @@ function RecipeProvider({ children }) {
         setData(result);
       } catch (e) { throw new Error(e.message); }
     } else if (radioFilter === 'nameRadio') {
-      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
       try {
         const response = await fetch(endPointIngredient);
         const result = await response.json();
@@ -127,7 +131,7 @@ function RecipeProvider({ children }) {
         setData(result);
       } catch (e) { throw new Error(e.message); }
     } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
-      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
       try {
         const response = await fetch(endPointIngredient);
         const result = await response.json();
@@ -146,6 +150,7 @@ function RecipeProvider({ children }) {
     searchInput,
     radioFilter,
     data,
+    setData,
     handleBtnSearch,
     handleClick,
     handleEmail,
