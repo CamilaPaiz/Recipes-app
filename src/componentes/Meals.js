@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import RecipeContext from '../context/RecipeContext';
+import Recipes from './Recipes';
 
 function Meals() {
-  const { mealsRecipes } = useContext(RecipeContext);
+  const { mealsRecipes, teste } = useContext(RecipeContext);
   return (
     <div>
       <Header />
@@ -18,6 +19,10 @@ function Meals() {
           <h3 data-testid={ `${index}-card-name` }>{element.strMeal}</h3>
         </div>
       ))}
+      {
+        !teste && <Recipes />
+      }
+
       <Footer />
     </div>
   );

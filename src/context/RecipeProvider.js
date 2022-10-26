@@ -14,6 +14,7 @@ function RecipeProvider({ children }) {
   const [radioFilter, setRadioFilter] = useState([]);
   const [mealsRecipes, setMealsRecipes] = useState([]);
   const [drinkRecipes, setDrinkRecipes] = useState([]);
+  const [teste, setTeste] = useState(false);
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -160,6 +161,11 @@ function RecipeProvider({ children }) {
       await requestApiMeal();
     } if (location.pathname === '/drinks') {
       await requestApiDrink();
+    }
+    if (teste === false) {
+      setTeste(true);
+    } else {
+      setTeste(false);
     }
   };
 
