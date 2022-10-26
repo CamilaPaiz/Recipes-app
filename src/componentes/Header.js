@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 function Header() {
   const [input, setInput] = useState(false);
@@ -57,7 +58,8 @@ function Header() {
         ) : null}
       {input === true && (
         <div>
-          <input type="text" placeholder="Procure" data-testid="search-input" />
+          {/*  <input type="text" placeholder="Procure" data-testid="search-input" /> */}
+          <SearchBar />
         </div>
       )}
     </div>

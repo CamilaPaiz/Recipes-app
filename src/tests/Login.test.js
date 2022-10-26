@@ -59,7 +59,7 @@ describe('Verifica o Header', () => {
     const buttonProfile = screen.getByRole('button', { name: 'Perfil' });
     const buttonInput = screen.getByRole('button', { name: 'Pesquisar' });
     userEvent.click(buttonInput);
-    const input = screen.getByPlaceholderText('Procure');
+    const input = screen.getByTestId('search-input');
     expect(input).toBeInTheDocument();
     userEvent.click(buttonInput);
     expect(input).not.toBeInTheDocument();
