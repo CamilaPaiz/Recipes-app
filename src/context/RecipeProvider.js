@@ -13,7 +13,7 @@ function RecipeProvider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [radioFilter, setRadioFilter] = useState([]);
   const [mealsRecipes, setMealsRecipes] = useState([]);
-  // const [drinkRecipes, setDrinkRecipes] = useState([]);
+  const [drinkRecipes, setDrinkRecipes] = useState([]);
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -51,21 +51,26 @@ function RecipeProvider({ children }) {
     setRadioFilter(target.value);
   };
 
-  const teste = (datas) => {
+  const doze = 12;
+
+  const pegarMeals = (datas) => {
     if (datas.meals !== null) {
       if (datas.meals.length === 1) {
         history.push(`/meals/${datas.meals[0].idMeal}`);
       } else {
-        setMealsRecipes(data);
+        // console.log(datas[0)
+        setMealsRecipes(datas.meals.slice(0, doze));
       }
     } else {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
-  const testeDrinks = (datas) => {
+  const pegarDrinks = (datas) => {
     if (datas.drinks !== null) {
       if (datas.drinks.length === 1) {
         history.push(`/drinks/${datas.drinks[0].idDrink}`);
+      } else {
+        setDrinkRecipes(datas.drinks.slice(0, doze));
       }
     } else {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
@@ -81,7 +86,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
-      teste(result);
+      pegarMeals(result);
     } else if (radioFilter === 'nameRadio') {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
 
@@ -89,7 +94,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result.meals);
       setData(result);
-      teste(result);
+      pegarMeals(result);
     } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
 
@@ -97,7 +102,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
-      teste(result);
+      pegarMeals(result);
     } else {
       global.alert('Your search must have only 1 (one) character');
     }
@@ -110,7 +115,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
-      testeDrinks(result);
+      pegarDrinks(result);
     } else if (radioFilter === 'nameRadio') {
       const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
 
@@ -118,7 +123,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
-      testeDrinks(result);
+      pegarDrinks(result);
     } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
       const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
 
@@ -126,7 +131,7 @@ function RecipeProvider({ children }) {
       const result = await response.json();
       console.log(result);
       setData(result);
-      testeDrinks(result);
+      pegarDrinks(result);
     } else {
       global.alert('Your search must have only 1 (one) character');
     }
@@ -196,6 +201,7 @@ function RecipeProvider({ children }) {
     radioFilter,
     data,
     mealsRecipes,
+    drinkRecipes,
     setData,
     handleBtnSearch,
     handleClick,
@@ -211,9 +217,10 @@ function RecipeProvider({ children }) {
     password,
     isDisabled,
     searchInput,
-    mealsRecipes,
     radioFilter,
     data,
+    mealsRecipes,
+    drinkRecipes,
     handleEmail,
     handlePassword,
     /*  verifyBtn, */
