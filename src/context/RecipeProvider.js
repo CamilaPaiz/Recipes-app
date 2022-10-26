@@ -10,9 +10,9 @@ function RecipeProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
-  // const [typeUrl, setypeUrl] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [radioFilter, setRadioFilter] = useState([]);
+  const [drinkRecipes, setDrinkRecipes] = useState([]);
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -106,26 +106,29 @@ function RecipeProvider({ children }) {
 
   const handleDrinksResults = () => {
     const { location } = history;
+    const NUMBER = 11;
     if (data.drinks.length === 1 && location.pathname === '/drinks') {
-      history.push('/drinks/:id-da-receita');
+      history.push(`/drinks/${data.drinks[0].idDrink}`);
+    } else if (data.drinks.length > 1 && location.pathname === '/drinks') {
+      // setDrinkRecipes(data.drinks.slice(NUMBER));
+      console.log(data.drinks.slice(NUMBER));
     }
   };
 
   const handleMealsResults = () => {
     const { location } = history;
     if (data.meals.length === 1 && location.pathname === '/meals') {
-      history.push('/meals/:id-da-receita');
+      history.push(`/meals/${data.meals[0].idMeal}`);
     }
   };
-
-  const handleBtnSearch = () => {
+  const handleBtnSearch = async () => {
     const { location } = history;
     if (location.pathname === '/meals') {
-      requestApiMeal();
-      // handleMealsResults();
+      await requestApiMeal();
+      await handleMealsResults();
     } if (location.pathname === '/drinks') {
-      requestApiDrink();
-      // handleDrinksResults();
+      await requestApiDrink();
+      handleDrinksResults();
     }
   };
 
@@ -166,6 +169,7 @@ function RecipeProvider({ children }) {
     searchInput,
     radioFilter,
     data,
+    drinkRecipes,
     setData,
     handleBtnSearch,
     handleClick,
