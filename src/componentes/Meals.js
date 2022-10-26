@@ -1,4 +1,6 @@
+
 import React, { useContext } from 'react';
+import Footer from './Footer';
 import Header from './Header';
 import RecipeContext from '../context/RecipeContext';
 
@@ -17,6 +19,7 @@ function Meals() {
           <h3 data-testid={ `${index}-card-name` }>{element.strMeal}</h3>
         </div>
       ))}
+      <Footer />
     </div>
   );
 }
