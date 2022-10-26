@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Header from './Header';
 import RecipeContext from '../context/RecipeContext';
+import Footer from './Footer';
 
 function Drinks() {
   const { drinkRecipes } = useContext(RecipeContext);
@@ -18,6 +19,7 @@ function Drinks() {
           <h3 data-testid={ `${index}-card-name` }>{element.strDrink}</h3>
         </div>
       ))}
+      <Footer />
     </div>
   );
 }
