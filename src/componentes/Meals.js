@@ -4,6 +4,7 @@ import Header from './Header';
 import RecipeContext from '../context/RecipeContext';
 import Recipes from './Recipes';
 
+// history.push(`/meals/${datas.meals[0].idMeal}
 function Meals() {
   const { mealsRecipes, teste } = useContext(RecipeContext);
   return (
