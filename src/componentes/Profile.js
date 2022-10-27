@@ -21,6 +21,7 @@ function Profile() {
     <div>
       <Header />
       <h2 data-testid="profile-email">{email.email}</h2>
+      <p>testando quebras de requisito</p>
       <br />
       <button
         type="button"
