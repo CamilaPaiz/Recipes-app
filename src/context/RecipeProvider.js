@@ -35,6 +35,15 @@ function RecipeProvider({ children }) {
     setEmail(target.value);
   };
 
+  const getEmail = () => {
+    const emailProfile = JSON.parse(localStorage.getItem('user'));
+    console.log(emailProfile);
+    return setEmail(emailProfile);
+  };
+  /* useEffect(() => {
+    getEmail();
+  }); */
+
   const handlePassword = ({ target }) => {
     setPassword(target.value);
   };
@@ -77,8 +86,6 @@ function RecipeProvider({ children }) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
-
-  // const [data, setData] = useState([]);
 
   const requestApiMeal = async () => {
     if (radioFilter === 'ingredientRadio') {
@@ -138,23 +145,6 @@ function RecipeProvider({ children }) {
     }
   };
 
-  // const handleDrinksResults = () => {
-  //   const { location } = history;
-  //   const NUMBER = 11;
-  //   if (data.drinks.length === 1 && location.pathname === '/drinks') {
-  //     history.push(`/drinks/${data.drinks[0].idDrink}`);
-  //   } else if (data.drinks.length > 1 && location.pathname === '/drinks') {
-  //     // setDrinkRecipes(data.drinks.slice(NUMBER));
-  //     console.log(data.drinks.slice(NUMBER));
-  //   }
-  // };
-
-  // const handleMealsResults = () => {
-  //   const { location } = history;
-  //   if (data.meals.length === 1 && location.pathname === '/meals') {
-  //     history.push(`/meals/${data.meals[0].idMeal}`);
-  //   }
-  // };
   const handleBtnSearch = async () => {
     const { location } = history;
     if (location.pathname === '/meals') {
@@ -169,36 +159,6 @@ function RecipeProvider({ children }) {
     }
   };
 
-  /* const handleBtnSearch = async () => {
-    if (radioFilter === 'ingredientRadio') {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'nameRadio') {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result.meals);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else {
-      global.alert('Your search must have only 1 (one) character');
-    }
-  }; */
-
   const context = useMemo(() => ({
     email,
     password,
@@ -209,6 +169,7 @@ function RecipeProvider({ children }) {
     mealsRecipes,
     drinkRecipes,
     teste,
+    getEmail,
     setData,
     handleBtnSearch,
     handleClick,

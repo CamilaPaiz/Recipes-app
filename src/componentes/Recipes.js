@@ -33,6 +33,7 @@ export default function Recipes() {
             src={ item.strMealThumb }
             alt={ item.strMeal }
             data-testid={ `${index}-card-img` }
+            style={ { width: '200px', height: '150px' } }
           />
           <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
         </div>
@@ -45,6 +46,7 @@ export default function Recipes() {
               src={ element.strDrinkThumb }
               alt={ element.strDrink }
               data-testid={ `${i}-card-img` }
+              style={ { width: '200px', height: '150px' } }
             />
             <h3 data-testid={ `${i}-card-name` }>{element.strDrink}</h3>
           </div>
