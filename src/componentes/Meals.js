@@ -15,6 +15,7 @@ function Meals() {
             src={ element.strMealThumb }
             alt={ element.strMeal }
             data-testid={ `${index}-card-img` }
+            style={ { width: '200px', height: '150px' } }
           />
           <h3 data-testid={ `${index}-card-name` }>{element.strMeal}</h3>
         </div>
