@@ -1,4 +1,4 @@
-import React, { useContext/* , useEffect */ } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -6,21 +6,22 @@ import RecipeContext from '../context/RecipeContext';
 
 function Profile() {
   const history = useHistory();
-  const { email/* , getEmail  */ } = useContext(RecipeContext);
+  const { email, getEmail } = useContext(RecipeContext);
 
   const handleClickLogout = () => {
     localStorage.removeItem('user');
     return history.push('/');
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     getEmail();
-  }, []); */
+  }, []);
 
   return (
     <div>
       <Header />
       <h2 data-testid="profile-email">{email.email}</h2>
+      <p>testando quebras de requisito</p>
       <br />
       <button
         type="button"
