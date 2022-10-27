@@ -29,7 +29,7 @@ export default function Recipes() {
   const requestCategory = async () => {
     let endpointCategory;
     if (history.location.pathname === '/meals') {
-      endpointCategory = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list ';
+      endpointCategory = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
     } else if (history.location.pathname === '/drinks') {
       endpointCategory = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
     }

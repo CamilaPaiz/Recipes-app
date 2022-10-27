@@ -13,9 +13,9 @@ function Profile() {
     return history.push('/');
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     getEmail();
-  }, []);
+  }, []); */
 
   return (
     <div>
