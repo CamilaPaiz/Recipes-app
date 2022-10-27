@@ -6,6 +6,9 @@ export default function Recipes() {
   const [dataDrinks, setDataDrinks] = useState([]);
   const [dataCategoryMeals, setDataCategoryMeals] = useState([]);
   const [dataCategoryDrinks, setDataCategoryDrinks] = useState([]);
+  const [mealsPorCategory, setMealsPorCategory] = useState([]);
+  const [drinksPorCategory, setDrinksPorCategory] = useState([]);
+  const [clickAll, setClickAll] = useState(false);
   const history = useHistory();
   const doze = 12;
   const CINCO = 5;
@@ -44,60 +47,132 @@ export default function Recipes() {
     }
   };
 
+  const requestMealsPorCategory = async (category) => {
+    let url;
+    const localizacao = history.location.pathname;
+    if (localizacao === '/meals') {
+      url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+    } else if (localizacao === '/drinks') {
+      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
+    }
+    const response = await fetch(url);
+    const result = await response.json();
+    if (localizacao === '/meals') {
+      setMealsPorCategory(result.meals.slice(0, doze));
+    } else if (localizacao === '/drinks') {
+      setDrinksPorCategory(result.drinks.slice(0, doze));
+    }
+  };
+
+  const requestTodasCategorias = async () => {
+    if (clickAll === false) {
+      setClickAll(true);
+      setMealsPorCategory([]);
+      setDrinksPorCategory([]);
+    } else {
+      setMealsPorCategory([]);
+      setDrinksPorCategory([]);
+      setClickAll(false);
+    }
+  };
+
   useEffect(() => { requestData(); requestCategory(); }, []);
 
   return (
     <div>
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ requestTodasCategorias }
+      >
+        All
+      </button>
       {
         (history.location.pathname === '/meals') && (dataCategoryMeals.map((e, indx) => (
           <div key={ indx }>
             <button
               type="button"
+              onClick={ () => { requestMealsPorCategory(e.strCategory); } }
               data-testid={ `${e.strCategory}-category-filter` }
             >
               {e.strCategory}
-
             </button>
           </div>
         )))
       }
-      { (history.location.pathname === '/meals') && (dataMeals.map((item, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
-          <img
-            src={ item.strMealThumb }
-            alt={ item.strMeal }
-            data-testid={ `${index}-card-img` }
-            style={ { width: '200px', height: '150px' } }
-          />
-          <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
-        </div>
-      )))}
+      { (history.location.pathname === '/meals')
+       && (mealsPorCategory.length === 0)
+        && (dataMeals.map((item, index) => (
+          <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <img
+              src={ item.strMealThumb }
+              alt={ item.strMeal }
+              data-testid={ `${index}-card-img` }
+              style={ { width: '200px', height: '150px' } }
+            />
+            <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
+          </div>
+        )))}
+      {
+        (history.location.pathname === '/meals')
+         && (mealsPorCategory.length !== 0)
+         && (clickAll === false)
+          && mealsPorCategory.map((element, index) => (
+            <div key={ index } data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ element.strMealThumb }
+                data-testid={ `${index}-card-img` }
+                alt={ element.strMeal }
+                style={ { width: '200px', height: '150px' } }
+              />
+              <h3 data-testid={ `${index}-card-name` }>{element.strMeal}</h3>
+            </div>
+          ))
+      }
       {
         (history.location.pathname === '/drinks') && dataCategoryDrinks.map((el, idx) => (
           <div key={ idx }>
             <button
               type="button"
               data-testid={ `${el.strCategory}-category-filter` }
+              onClick={ () => { requestMealsPorCategory(el.strCategory); } }
+
             >
               {el.strCategory}
-
             </button>
           </div>
         ))
       }
       {
-        (history.location.pathname === '/drinks') && dataDrinks.map((element, i) => (
-          <div key={ i } data-testid={ `${i}-recipe-card` }>
-            <img
-              src={ element.strDrinkThumb }
-              alt={ element.strDrink }
-              data-testid={ `${i}-card-img` }
-              style={ { width: '200px', height: '150px' } }
-            />
-            <h3 data-testid={ `${i}-card-name` }>{element.strDrink}</h3>
-          </div>
+        (history.location.pathname === '/drinks')
+         && (drinksPorCategory.length === 0)
+          && dataDrinks.map((element, i) => (
+            <div key={ i } data-testid={ `${i}-recipe-card` }>
+              <img
+                src={ element.strDrinkThumb }
+                alt={ element.strDrink }
+                data-testid={ `${i}-card-img` }
+                style={ { width: '200px', height: '150px' } }
+              />
+              <h3 data-testid={ `${i}-card-name` }>{element.strDrink}</h3>
+            </div>
 
-        ))
+          ))
+      }
+      {
+        (history.location.pathname === '/drinks')
+         && (drinksPorCategory.length !== 0)
+          && drinksPorCategory.map((element, index) => (
+            <div key={ index } data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ element.strDrinkThumb }
+                data-testid={ `${index}-card-img` }
+                alt={ element.strDrink }
+                style={ { width: '200px', height: '150px' } }
+              />
+              <h3 data-testid={ `${index}-card-name` }>{element.strDrink}</h3>
+            </div>
+          ))
       }
     </div>
   );
