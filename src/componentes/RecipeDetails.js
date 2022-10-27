@@ -1,10 +1,45 @@
-import React/* , { useEffect } */ from 'react';
-import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import '../style/recipesDetails.css';
 
 export default function RecipeDetails() {
   const history = useHistory();
-  console.log(history.location.pathname);
+  const params = useParams();
+  console.log(params.id);
+  // const [detailsIDRecipe, setDetailsIDRecipe] = useState([]);
+  const [detailsIDMeals, setDetailsIDMeals] = useState();
+  const [detailsIDDrinks, setDetailsIDDrinks] = useState();
+
+  const requestdetailsRecipe = async () => {
+    let endpointdetailsId;
+    if (history.location.pathname === '/meals') {
+      endpointdetailsId = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${params.id}`;
+      console.log(endpointdetailsId);
+    } else if (history.location.pathname === '/drinks') {
+      endpointdetailsId = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
+    }
+    const response = await fetch(endpointdetailsId);
+    const result = await response.json();
+    if (history.location.pathname === '/meals') {
+      setDetailsIDMeals(result);
+    } else if (history.location.pathname === '/drinks') {
+      setDetailsIDDrinks(result);
+    }
+  };
+  console.log(detailsIDMeals);
+  useEffect(() => {
+    requestdetailsRecipe();
+  }, []);
+
+  /* if (history.location.pathname === '/meals') {
+    setDataCategoryMeals(result.meals.slice(0, CINCO));
+    console.log(dataCategoryMeals);
+  } else if (history.location.pathname === '/drinks') {
+    setDataCategoryDrinks(result.drinks.slice(0, CINCO));
+    console.log(dataCategoryDrinks);
+  } */
+
+  // console.log(detailsIDDrinks.idMeal);
   /* const requestRecipe = async () => {
     let endpointRecipe;
     if (history.location.pathname === '/meals') {
