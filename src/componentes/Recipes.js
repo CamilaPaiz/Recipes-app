@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/jsx-closing-bracket-location */
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipeContext from '../context/RecipeContext';
 
 export default function Recipes() {
   const [dataMeals, setDataMeals] = useState([]);
@@ -12,6 +14,7 @@ export default function Recipes() {
   const history = useHistory();
   const doze = 12;
   const CINCO = 5;
+  const { redirecionarParaPaginaComId } = useContext(RecipeContext);
 
   const requestData = async () => {
     let endpoint;
@@ -47,6 +50,18 @@ export default function Recipes() {
     }
   };
 
+  const requestTodasCategorias = async () => {
+    if (clickAll === false) {
+      setClickAll(true);
+      setMealsPorCategory([]);
+      setDrinksPorCategory([]);
+    } else {
+      setMealsPorCategory([]);
+      setDrinksPorCategory([]);
+      setClickAll(false);
+    }
+  };
+
   const requestMealsPorCategory = async (category) => {
     let url;
     const localizacao = history.location.pathname;
@@ -57,22 +72,18 @@ export default function Recipes() {
     }
     const response = await fetch(url);
     const result = await response.json();
+    if (localizacao === '/drinks' && drinksPorCategory.length > 0
+     && drinksPorCategory[0].strDrink === result.drinks[0].strDrink) {
+      return setDrinksPorCategory([]);
+    }
+    if (localizacao === '/meals' && mealsPorCategory.length > 0
+     && mealsPorCategory[0].strMeal === result.meals[0].strMeal) {
+      return setMealsPorCategory([]);
+    }
     if (localizacao === '/meals') {
       setMealsPorCategory(result.meals.slice(0, doze));
     } else if (localizacao === '/drinks') {
       setDrinksPorCategory(result.drinks.slice(0, doze));
-    }
-  };
-
-  const requestTodasCategorias = async () => {
-    if (clickAll === false) {
-      setClickAll(true);
-      setMealsPorCategory([]);
-      setDrinksPorCategory([]);
-    } else {
-      setMealsPorCategory([]);
-      setDrinksPorCategory([]);
-      setClickAll(false);
     }
   };
 
@@ -103,7 +114,11 @@ export default function Recipes() {
       { (history.location.pathname === '/meals')
        && (mealsPorCategory.length === 0)
         && (dataMeals.map((item, index) => (
-          <div key={ index } data-testid={ `${index}-recipe-card` }>
+          <div
+            key={ index }
+            data-testid={ `${index}-recipe-card` }
+            onClickCapture={ () => redirecionarParaPaginaComId(dataMeals[index].idMeal) }
+          >
             <img
               src={ item.strMealThumb }
               alt={ item.strMeal }
@@ -118,7 +133,13 @@ export default function Recipes() {
          && (mealsPorCategory.length !== 0)
          && (clickAll === false)
           && mealsPorCategory.map((element, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <div
+              key={ index }
+              data-testid={ `${index}-recipe-card` }
+              onClickCapture={
+                () => redirecionarParaPaginaComId(mealsPorCategory[index].idMeal)
+              }
+            >
               <img
                 src={ element.strMealThumb }
                 data-testid={ `${index}-card-img` }
@@ -147,7 +168,10 @@ export default function Recipes() {
         (history.location.pathname === '/drinks')
          && (drinksPorCategory.length === 0)
           && dataDrinks.map((element, i) => (
-            <div key={ i } data-testid={ `${i}-recipe-card` }>
+            <div
+              key={ i }
+              data-testid={ `${i}-recipe-card` }
+              onClickCapture={ () => redirecionarParaPaginaComId(dataDrinks[i].idDrink) }>
               <img
                 src={ element.strDrinkThumb }
                 alt={ element.strDrink }
@@ -163,7 +187,12 @@ export default function Recipes() {
         (history.location.pathname === '/drinks')
          && (drinksPorCategory.length !== 0)
           && drinksPorCategory.map((element, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <div
+              key={ index }
+              data-testid={ `${index}-recipe-card` }
+              onClickCapture={
+                () => redirecionarParaPaginaComId(drinksPorCategory[index].idDrink)
+              }>
               <img
                 src={ element.strDrinkThumb }
                 data-testid={ `${index}-card-img` }

@@ -5,13 +5,19 @@ import RecipeContext from '../context/RecipeContext';
 import Footer from './Footer';
 
 function Drinks() {
-  const { drinkRecipes, teste } = useContext(RecipeContext);
+  const { drinkRecipes, teste, redirecionarParaPaginaComId } = useContext(RecipeContext);
   console.log(drinkRecipes);
   return (
     <div>
       <Header />
       {teste && drinkRecipes.map((element, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
+        <div
+          key={ index }
+          data-testid={ `${index}-recipe-card` }
+          onClickCapture={
+            () => redirecionarParaPaginaComId(drinkRecipes[index].idDrink)
+          }
+        >
           <img
             src={ element.strDrinkThumb }
             alt={ element.strDrink }

@@ -84,6 +84,14 @@ function RecipeProvider({ children }) {
     }
   };
 
+  const redirecionarParaPaginaComId = (id) => {
+    if (history.location.pathname === '/meals') {
+      history.push(`/meals/${id}`);
+    } else {
+      history.push(`/drinks/${id}`);
+    }
+  };
+
   const requestApiMeal = async () => {
     if (radioFilter === 'ingredientRadio') {
       const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
@@ -172,6 +180,7 @@ function RecipeProvider({ children }) {
     handleClick,
     handleEmail,
     handlePassword,
+    redirecionarParaPaginaComId,
     /*  verifyBtn, */
     handleSearchInput,
     handleRadioFilter,

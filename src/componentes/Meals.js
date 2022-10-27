@@ -6,12 +6,18 @@ import Recipes from './Recipes';
 
 // history.push(`/meals/${datas.meals[0].idMeal}
 function Meals() {
-  const { mealsRecipes, teste } = useContext(RecipeContext);
+  const { mealsRecipes, teste, redirecionarParaPaginaComId } = useContext(RecipeContext);
   return (
     <div>
       <Header />
       {mealsRecipes.map((element, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
+        <div
+          key={ index }
+          data-testid={ `${index}-recipe-card` }
+          onClickCapture={
+            () => redirecionarParaPaginaComId(mealsRecipes[index].idMeal)
+          }
+        >
           <img
             src={ element.strMealThumb }
             alt={ element.strMeal }
