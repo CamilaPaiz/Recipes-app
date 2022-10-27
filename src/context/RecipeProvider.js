@@ -36,13 +36,10 @@ function RecipeProvider({ children }) {
   };
 
   const getEmail = () => {
-    const emailProfile = JSON.parse(localStorage.getItem('user'));
+    const emailProfile = JSON.parse(localStorage.getItem('user')) || '';
     console.log(emailProfile);
     return setEmail(emailProfile);
   };
-  /* useEffect(() => {
-    getEmail();
-  }); */
 
   const handlePassword = ({ target }) => {
     setPassword(target.value);
