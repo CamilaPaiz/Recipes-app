@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import Header from './Header';
+import Recipes from './Recipes';
 import RecipeContext from '../context/RecipeContext';
 import Footer from './Footer';
 
 function Drinks() {
-  const { drinkRecipes } = useContext(RecipeContext);
+  const { drinkRecipes, teste } = useContext(RecipeContext);
   console.log(drinkRecipes);
   return (
     <div>
       <Header />
-      {drinkRecipes.map((element, index) => (
+      {teste && drinkRecipes.map((element, index) => (
         <div key={ index } data-testid={ `${index}-recipe-card` }>
           <img
             src={ element.strDrinkThumb }
@@ -19,6 +20,9 @@ function Drinks() {
           <h3 data-testid={ `${index}-card-name` }>{element.strDrink}</h3>
         </div>
       ))}
+      {
+        (!teste) && <Recipes />
+      }
       <Footer />
     </div>
   );
