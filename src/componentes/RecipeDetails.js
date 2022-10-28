@@ -12,12 +12,6 @@ export default function RecipeDetails() {
   const [mealsRoute, setmealsRoute] = useState(false);
   const [ingrediente, setIngrediente] = useState([]);
 
-  /* const filtering = () => {
-    if (pathnameToCompare[1] === 'meals' && detailsIDMeals.length > 0) {
-      setIngrediente(detailsIDMeals
-        .filter((e) => e === detailsIDMeals.meals.includes(e.strIngredient)));
-    }
-  }; */
   const requestdetailsRecipe = async () => {
     let endpointdetailsId;
     const pathnameToCompare = history.location.pathname.split('/');
@@ -30,8 +24,11 @@ export default function RecipeDetails() {
     const result = await response.json();
     if (pathnameToCompare[1] === 'meals') {
       setDetailsIDMeals(result);
-      // setIngrediente(filtering());
-      setIngrediente(result.meals[0].strIngredient1);
+      const respondeApi = result.meals[0];
+      const pegaIngrediente = Object.entries(respondeApi)
+        .filter((ingred) => ingred[0].includes('strIngredient')
+        && ingred[1] !== '' && ingred[1] !== null).map((ingred) => ingred[1]);
+      setIngrediente(pegaIngrediente);
       setmealsRoute(true);
       setdrinkRoute(false);
     } else if (pathnameToCompare[1] === 'drinks') {
@@ -39,9 +36,6 @@ export default function RecipeDetails() {
       setdrinkRoute(true);
       setmealsRoute(false);
     }
-    console.log(detailsIDDrinks);
-    console.log(detailsIDMeals);
-    console.log(ingrediente);
   };
 
   useEffect(() => {
