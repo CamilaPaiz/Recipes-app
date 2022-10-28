@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+/* import 'bootstrap/dist/css/bootstrap.min.css';
+import { Carousel } from 'react-bootstrap'; */
 import '../style/recipesDetails.css';
 
 export default function RecipeDetails() {
@@ -56,6 +58,7 @@ export default function RecipeDetails() {
   };
 
   const requestRecomendations = async () => {
+    const SEIS = 6;
     let endpoint;
     const pathnameToCompare = history.location.pathname.split('/');
     if (pathnameToCompare[1] === 'meals') {
@@ -66,9 +69,9 @@ export default function RecipeDetails() {
     const response = await fetch(endpoint);
     const result = await response.json();
     if (pathnameToCompare[1] === 'meals') {
-      setRecomendations(result);
+      setRecomendations(result.drinks.slice(0, SEIS));
     } else if (pathnameToCompare[1] === 'drinks') {
-      setRecomendationsD(result);
+      setRecomendationsD(result.meals.slice(0, SEIS));
     }
     console.log(recomendations);
     console.log(recomendationsD);
@@ -118,6 +121,18 @@ export default function RecipeDetails() {
 
               ))
             }
+            <h3>Recomendations:</h3>
+            { recomendationsD.map((e, i) => (
+              <div key={ i } data-testid={ `${i}-recommendation-card` }>
+                <p data-testid={ `${i}-recommendation-title` }>{e.strMeal}</p>
+                <img
+                  src={ e.strMealThumb }
+                  alt={ e.strMeal }
+                  data-testid="recipe-photo"
+                  style={ { width: '200px', height: '150px' } }
+                />
+              </div>
+            )) }
           </div>
         ))
       }
@@ -163,6 +178,18 @@ export default function RecipeDetails() {
               title={ item.strMeal }
               data-testid="video"
             />
+            <h3>Recomendations:</h3>
+            { recomendations.map((el, idx) => (
+              <div key={ idx } data-testid={ `${idx}-recommendation-card` }>
+                <p data-testid={ `${idx}-recommendation-title` }>{el.strDrink}</p>
+                <img
+                  src={ el.strDrinkThumb }
+                  alt={ el.strMeal }
+                  data-testid="recipe-photo"
+                  style={ { width: '200px', height: '150px' } }
+                />
+              </div>
+            )) }
           </div>
         ))
       }
