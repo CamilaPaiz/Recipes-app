@@ -63,11 +63,11 @@ function RecipeProvider({ children }) {
   const pegarMeals = (datas) => {
     if (datas.meals !== null) {
       if (datas.meals.length === 1) {
-        history.push(`/meals/${datas.meals[0].idMeal}`);
-      } else {
-        // console.log(datas[0)
-        setMealsRecipes(datas.meals.slice(0, doze));
+        console.log('oi');
+        return history.push(`/meals/${datas.meals[0].idMeal}`);
       }
+      // console.log(datas[0)
+      setMealsRecipes(datas.meals.slice(0, doze));
     } else {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
