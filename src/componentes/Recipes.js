@@ -111,7 +111,9 @@ export default function Recipes() {
           </div>
         )))
       }
-      { (history.location.pathname === '/meals')
+      <div data-testid="MealsPadrao">
+
+        { (history.location.pathname === '/meals')
        && (mealsPorCategory.length === 0)
         && (dataMeals.map((item, index) => (
           <div
@@ -128,6 +130,7 @@ export default function Recipes() {
             <h3 data-testid={ `${index}-card-name` }>{item.strMeal}</h3>
           </div>
         )))}
+      </div>
       {
         (history.location.pathname === '/meals')
          && (mealsPorCategory.length !== 0)
@@ -164,8 +167,10 @@ export default function Recipes() {
           </div>
         ))
       }
-      {
-        (history.location.pathname === '/drinks')
+      <div data-testid="DrinkPadrao">
+
+        {
+          (history.location.pathname === '/drinks')
          && (drinksPorCategory.length === 0)
           && dataDrinks.map((element, i) => (
             <div
@@ -183,7 +188,8 @@ export default function Recipes() {
             </div>
 
           ))
-      }
+        }
+      </div>
       {
         (history.location.pathname === '/drinks')
          && (drinksPorCategory.length !== 0)
