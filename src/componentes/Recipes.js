@@ -171,7 +171,8 @@ export default function Recipes() {
             <div
               key={ i }
               data-testid={ `${i}-recipe-card` }
-              onClickCapture={ () => redirecionarParaPaginaComId(dataDrinks[i].idDrink) }>
+              onClickCapture={ () => redirecionarParaPaginaComId(dataDrinks[i].idDrink) }
+            >
               <img
                 src={ element.strDrinkThumb }
                 alt={ element.strDrink }
@@ -192,7 +193,8 @@ export default function Recipes() {
               data-testid={ `${index}-recipe-card` }
               onClickCapture={
                 () => redirecionarParaPaginaComId(drinksPorCategory[index].idDrink)
-              }>
+              }
+            >
               <img
                 src={ element.strDrinkThumb }
                 data-testid={ `${index}-card-img` }
