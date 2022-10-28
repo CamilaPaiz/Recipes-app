@@ -11,6 +11,7 @@ export default function RecipeDetails() {
   const [drinkRoute, setdrinkRoute] = useState(false);
   const [mealsRoute, setmealsRoute] = useState(false);
   const [ingrediente, setIngrediente] = useState([]);
+  const [measure, setMeasure] = useState([]);
 
   const requestdetailsRecipe = async () => {
     let endpointdetailsId;
@@ -28,11 +29,25 @@ export default function RecipeDetails() {
       const pegaIngrediente = Object.entries(respondeApi)
         .filter((ingred) => ingred[0].includes('strIngredient')
         && ingred[1] !== '' && ingred[1] !== null).map((ingred) => ingred[1]);
+      const pegaMesure = Object.entries(respondeApi)
+        .filter((mesure) => mesure[0].includes('strMeasure')
+        && mesure[1] !== '' && mesure[1] !== null).map((mesure) => mesure[1]);
+      console.log(pegaIngrediente);
       setIngrediente(pegaIngrediente);
+      setMeasure(pegaMesure);
       setmealsRoute(true);
       setdrinkRoute(false);
     } else if (pathnameToCompare[1] === 'drinks') {
       setDetailsIDDrinks(result);
+      const respondeApiD = result.drinks[0];
+      const pegaIngredienteD = Object.entries(respondeApiD)
+        .filter((ingred) => ingred[0].includes('strIngredient')
+        && ingred[1] !== '' && ingred[1] !== null).map((ingred) => ingred[1]);
+      setIngrediente(pegaIngredienteD);
+      const pegaMesure = Object.entries(respondeApiD)
+        .filter((mesure) => mesure[0].includes('strMeasure')
+        && mesure[1] !== '' && mesure[1] !== null).map((mesure) => mesure[1]);
+      setMeasure(pegaMesure);
       setdrinkRoute(true);
       setmealsRoute(false);
     }
@@ -57,37 +72,30 @@ export default function RecipeDetails() {
         drinkRoute && detailsIDDrinks.drinks.map((item, index) => (
           <div key={ index }>
             <img
-              src={ item.strMealThumb }
-              alt={ item.strMeal }
+              src={ item.strDrinkThumb }
+              alt={ item.strDrink }
               data-testid="recipe-photo"
               style={ { width: '200px', height: '150px' } }
             />
-            <h3 data-testid="recipe-title">{item.strMeal}</h3>
+            <h3 data-testid="recipe-title">{item.strDrink}</h3>
             <p data-testid="recipe-category">{item.strAlcoholic}</p>
             <p data-testid="instructions">{item.strInstructions}</p>
-
-            <span>
-              Ingredients:
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                {item.strIngredient1}
-                {item.strMeasure1}
-
+            <h3>Ingredients:</h3>
+            { ingrediente.map((el, i) => (
+              <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                { el}
               </p>
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                {item.strIngredient2}
 
-              </p>
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                {item.strIngredient3}
+            )) }
+            <h3>Measures:</h3>
+            {
+              measure.map((e, i) => (
+                <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                  { e}
+                </p>
 
-              </p>
-            </span>
+              ))
+            }
           </div>
         ))
       }
@@ -105,29 +113,29 @@ export default function RecipeDetails() {
             <h3 data-testid="recipe-title">{item.strMeal}</h3>
             <p data-testid="recipe-category">{item.strCategory}</p>
             <p data-testid="instructions">{item.strInstructions}</p>
-            <span>
-              Ingredients:
+            <h3>Ingredients:</h3>
+            { ingrediente.map((e, i) => (
               <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
+                key={ i }
+                data-testid={ `${i}-ingredient-name-and-measure` }
               >
-                {item.strIngredient1}
-
-                {item.strMeasure1}
+                { e}
 
               </p>
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                {item.strIngredient2}
+            )) }
+            <h3>Measures:</h3>
+            {
+              measure.map((el, idx) => (
+                <p
+                  key={ idx }
+                  data-testid={ `${idx}-ingredient-name-and-measure` }
+                >
+                  {el}
 
-              </p>
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                {item.strIngredient3}
+                </p>
 
-              </p>
-            </span>
+              ))
+            }
             <iframe
               width="420"
               height="315"
@@ -139,6 +147,7 @@ export default function RecipeDetails() {
           </div>
         ))
       }
+
       <button type="button" data-testid="favorite-btn">
         Favorite
       </button>
