@@ -5,8 +5,7 @@ import '../style/recipesDetails.css';
 export default function RecipeDetails() {
   const history = useHistory();
   const params = useParams();
-  console.log(params.id);
-  // const [detailsIDRecipe, setDetailsIDRecipe] = useState([]);
+
   const [detailsIDMeals, setDetailsIDMeals] = useState([]);
   const [detailsIDDrinks, setDetailsIDDrinks] = useState([]);
   /* const [drinkRoute, setdrinkRoute] = useState(false);
