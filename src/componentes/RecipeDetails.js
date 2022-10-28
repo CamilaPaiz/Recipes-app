@@ -12,6 +12,8 @@ export default function RecipeDetails() {
   const [mealsRoute, setmealsRoute] = useState(false);
   const [ingrediente, setIngrediente] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [recomendations, setRecomendations] = useState([]);
+  const [recomendationsD, setRecomendationsD] = useState([]);
 
   const requestdetailsRecipe = async () => {
     let endpointdetailsId;
@@ -53,8 +55,28 @@ export default function RecipeDetails() {
     }
   };
 
+  const requestRecomendations = async () => {
+    let endpoint;
+    const pathnameToCompare = history.location.pathname.split('/');
+    if (pathnameToCompare[1] === 'meals') {
+      endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    } else if (pathnameToCompare[1] === 'drinks') {
+      endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    }
+    const response = await fetch(endpoint);
+    const result = await response.json();
+    if (pathnameToCompare[1] === 'meals') {
+      setRecomendations(result);
+    } else if (pathnameToCompare[1] === 'drinks') {
+      setRecomendationsD(result);
+    }
+    console.log(recomendations);
+    console.log(recomendationsD);
+  };
+
   useEffect(() => {
     requestdetailsRecipe();
+    requestRecomendations();
   }, []);
 
   const handleClick = () => {
