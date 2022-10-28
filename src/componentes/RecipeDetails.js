@@ -131,9 +131,7 @@ export default function RecipeDetails() {
                   data-testid={ `${idx}-ingredient-name-and-measure` }
                 >
                   {el}
-
                 </p>
-
               ))
             }
             <iframe
@@ -143,7 +141,6 @@ export default function RecipeDetails() {
               title={ item.strMeal }
               data-testid="video"
             />
-
           </div>
         ))
       }
@@ -161,7 +158,6 @@ export default function RecipeDetails() {
         type="button"
       >
         Start Recipe
-
       </button>
     </div>
   );
