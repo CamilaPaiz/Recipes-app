@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+/* import 'bootstrap/dist/css/bootstrap.min.css';
+import { Carousel } from 'react-bootstrap'; */
 import '../style/recipesDetails.css';
 
 export default function RecipeDetails() {
@@ -8,32 +10,76 @@ export default function RecipeDetails() {
 
   const [detailsIDMeals, setDetailsIDMeals] = useState([]);
   const [detailsIDDrinks, setDetailsIDDrinks] = useState([]);
-  /* const [drinkRoute, setdrinkRoute] = useState(false);
-  const [mealsRoute, setmealsRoute] = useState(false); */
+  const [drinkRoute, setdrinkRoute] = useState(false);
+  const [mealsRoute, setmealsRoute] = useState(false);
+  const [ingrediente, setIngrediente] = useState([]);
+  const [measure, setMeasure] = useState([]);
+  const [recomendations, setRecomendations] = useState([]);
+  const [recomendationsD, setRecomendationsD] = useState([]);
 
   const requestdetailsRecipe = async () => {
     let endpointdetailsId;
     const pathnameToCompare = history.location.pathname.split('/');
     if (pathnameToCompare[1] === 'meals') {
       endpointdetailsId = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${params.id}`;
-      /* setmealsRoute(true); */
     } else if (pathnameToCompare[1] === 'drinks') {
       endpointdetailsId = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
-      /* setdrinkRoute(true); */
     }
     const response = await fetch(endpointdetailsId);
     const result = await response.json();
     if (pathnameToCompare[1] === 'meals') {
       setDetailsIDMeals(result);
+      const respondeApi = result.meals[0];
+      const pegaIngrediente = Object.entries(respondeApi)
+        .filter((ingred) => ingred[0].includes('strIngredient')
+        && ingred[1] !== '' && ingred[1] !== null).map((ingred) => ingred[1]);
+      const pegaMesure = Object.entries(respondeApi)
+        .filter((mesure) => mesure[0].includes('strMeasure')
+        && mesure[1] !== '' && mesure[1] !== null).map((mesure) => mesure[1]);
+      console.log(pegaIngrediente);
+      setIngrediente(pegaIngrediente);
+      setMeasure(pegaMesure);
+      setmealsRoute(true);
+      setdrinkRoute(false);
     } else if (pathnameToCompare[1] === 'drinks') {
       setDetailsIDDrinks(result);
+      const respondeApiD = result.drinks[0];
+      const pegaIngredienteD = Object.entries(respondeApiD)
+        .filter((ingred) => ingred[0].includes('strIngredient')
+        && ingred[1] !== '' && ingred[1] !== null).map((ingred) => ingred[1]);
+      setIngrediente(pegaIngredienteD);
+      const pegaMesure = Object.entries(respondeApiD)
+        .filter((mesure) => mesure[0].includes('strMeasure')
+        && mesure[1] !== '' && mesure[1] !== null).map((mesure) => mesure[1]);
+      setMeasure(pegaMesure);
+      setdrinkRoute(true);
+      setmealsRoute(false);
     }
-    console.log(detailsIDDrinks);
-    console.log(detailsIDMeals);
+  };
+
+  const requestRecomendations = async () => {
+    const SEIS = 6;
+    let endpoint;
+    const pathnameToCompare = history.location.pathname.split('/');
+    if (pathnameToCompare[1] === 'meals') {
+      endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    } else if (pathnameToCompare[1] === 'drinks') {
+      endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    }
+    const response = await fetch(endpoint);
+    const result = await response.json();
+    if (pathnameToCompare[1] === 'meals') {
+      setRecomendations(result.drinks.slice(0, SEIS));
+    } else if (pathnameToCompare[1] === 'drinks') {
+      setRecomendationsD(result.meals.slice(0, SEIS));
+    }
+    console.log(recomendations);
+    console.log(recomendationsD);
   };
 
   useEffect(() => {
     requestdetailsRecipe();
+    requestRecomendations();
   }, []);
 
   const handleClick = () => {
@@ -47,8 +93,53 @@ export default function RecipeDetails() {
 
   return (
     <div>
-      {/* {
-        (drinkRoute) && detailsIDDrinks.map((item, index) => (
+      {
+        drinkRoute && detailsIDDrinks.drinks.map((item, index) => (
+          <div key={ index }>
+            <img
+              src={ item.strDrinkThumb }
+              alt={ item.strDrink }
+              data-testid="recipe-photo"
+              style={ { width: '200px', height: '150px' } }
+            />
+            <h3 data-testid="recipe-title">{item.strDrink}</h3>
+            <p data-testid="recipe-category">{item.strAlcoholic}</p>
+            <p data-testid="instructions">{item.strInstructions}</p>
+            <h3>Ingredients:</h3>
+            { ingrediente.map((el, i) => (
+              <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                { el}
+              </p>
+
+            )) }
+            <h3>Measures:</h3>
+            {
+              measure.map((e, i) => (
+                <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                  { e}
+                </p>
+
+              ))
+            }
+            <h3>Recomendations:</h3>
+            { recomendationsD.map((e, i) => (
+              <div key={ i } data-testid={ `${i}-recommendation-card` }>
+                <p data-testid={ `${i}-recommendation-title` }>{e.strMeal}</p>
+                <img
+                  src={ e.strMealThumb }
+                  alt={ e.strMeal }
+                  data-testid="recipe-photo"
+                  style={ { width: '200px', height: '150px' } }
+                />
+              </div>
+            )) }
+          </div>
+        ))
+      }
+
+      {
+        (mealsRoute) && detailsIDMeals.meals.map((item, index) => (
+
           <div key={ index }>
             <img
               src={ item.strMealThumb }
@@ -59,63 +150,50 @@ export default function RecipeDetails() {
             <h3 data-testid="recipe-title">{item.strMeal}</h3>
             <p data-testid="recipe-category">{item.strCategory}</p>
             <p data-testid="instructions">{item.strInstructions}</p>
-            <p
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {item.strIngredient1}
+            <h3>Ingredients:</h3>
+            { ingrediente.map((e, i) => (
+              <p
+                key={ i }
+                data-testid={ `${i}-ingredient-name-and-measure` }
+              >
+                { e}
 
-            </p>
-            <p
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {item.strIngredient2}
-
-            </p>
-            <p
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {item.strIngredient3}
-
-            </p>
-
-          </div>
-        ))
-      } */}
-      {/*  {
-        (mealsRoute) && detailsIDMeals.map((item, index) => (
-          <div key={ index }>
-            <img
-              src={ item.strMealThumb }
-              alt={ item.strMeal }
-              data-testid="recipe-photo"
-              style={ { width: '200px', height: '150px' } }
+              </p>
+            )) }
+            <h3>Measures:</h3>
+            {
+              measure.map((el, idx) => (
+                <p
+                  key={ idx }
+                  data-testid={ `${idx}-ingredient-name-and-measure` }
+                >
+                  {el}
+                </p>
+              ))
+            }
+            <iframe
+              width="420"
+              height="315"
+              src={ item.strYoutube }
+              title={ item.strMeal }
+              data-testid="video"
             />
-            <h3 data-testid="recipe-title">{item.strMeal}</h3>
-            <p data-testid="recipe-category">{item.strCategory}</p>
-            <p data-testid="instructions">{item.strInstructions}</p>
-            <p
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {item.strIngredient1}
-
-            </p>
-            <p
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {item.strIngredient2}
-
-            </p>
-            <p
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {item.strIngredient3}
-
-            </p>
-            <p>{item.strVideo}</p>
-
+            <h3>Recomendations:</h3>
+            { recomendations.map((el, idx) => (
+              <div key={ idx } data-testid={ `${idx}-recommendation-card` }>
+                <p data-testid={ `${idx}-recommendation-title` }>{el.strDrink}</p>
+                <img
+                  src={ el.strDrinkThumb }
+                  alt={ el.strMeal }
+                  data-testid="recipe-photo"
+                  style={ { width: '200px', height: '150px' } }
+                />
+              </div>
+            )) }
           </div>
         ))
-      } */}
+      }
+
       <button type="button" data-testid="favorite-btn">
         Favorite
       </button>
@@ -129,7 +207,6 @@ export default function RecipeDetails() {
         type="button"
       >
         Start Recipe
-
       </button>
     </div>
   );
