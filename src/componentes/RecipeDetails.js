@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-/* import 'bootstrap/dist/css/bootstrap.min.css';
-import { Carousel } from 'react-bootstrap'; */
 import '../style/recipesDetails.css';
 
 export default function RecipeDetails() {
   const history = useHistory();
   const params = useParams();
-
   const [detailsIDMeals, setDetailsIDMeals] = useState([]);
   const [detailsIDDrinks, setDetailsIDDrinks] = useState([]);
   const [drinkRoute, setdrinkRoute] = useState(false);
@@ -16,18 +13,15 @@ export default function RecipeDetails() {
   const [measure, setMeasure] = useState([]);
   const [recomendations, setRecomendations] = useState([]);
   const [recomendationsD, setRecomendationsD] = useState([]);
+  const [contador, setContador] = useState(1);
 
   const requestdetailsRecipe = async () => {
-    let endpointdetailsId;
-    const pathnameToCompare = history.location.pathname.split('/');
-    if (pathnameToCompare[1] === 'meals') {
-      endpointdetailsId = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${params.id}`;
-    } else if (pathnameToCompare[1] === 'drinks') {
-      endpointdetailsId = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
-    }
-    const response = await fetch(endpointdetailsId);
+    let edId;
+    if (history.location.pathname === `/meals/${params.id}`) edId = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${params.id}`;
+    else if (history.location.pathname === `/drinks/${params.id}`) edId = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
+    const response = await fetch(edId);
     const result = await response.json();
-    if (pathnameToCompare[1] === 'meals') {
+    if (history.location.pathname === `/meals/${params.id}`) {
       setDetailsIDMeals(result);
       const respondeApi = result.meals[0];
       const pegaIngrediente = Object.entries(respondeApi)
@@ -36,12 +30,11 @@ export default function RecipeDetails() {
       const pegaMesure = Object.entries(respondeApi)
         .filter((mesure) => mesure[0].includes('strMeasure')
         && mesure[1] !== '' && mesure[1] !== null).map((mesure) => mesure[1]);
-      console.log(pegaIngrediente);
       setIngrediente(pegaIngrediente);
       setMeasure(pegaMesure);
       setmealsRoute(true);
       setdrinkRoute(false);
-    } else if (pathnameToCompare[1] === 'drinks') {
+    } else if (history.location.pathname === `/drinks/${params.id}`) {
       setDetailsIDDrinks(result);
       const respondeApiD = result.drinks[0];
       const pegaIngredienteD = Object.entries(respondeApiD)
@@ -56,41 +49,29 @@ export default function RecipeDetails() {
       setmealsRoute(false);
     }
   };
-
   const requestRecomendations = async () => {
-    const SEIS = 6;
-    let endpoint;
-    const pathnameToCompare = history.location.pathname.split('/');
-    if (pathnameToCompare[1] === 'meals') {
-      endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    } else if (pathnameToCompare[1] === 'drinks') {
-      endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-    }
-    const response = await fetch(endpoint);
+    let endp;
+    if (history.location.pathname === `/meals/${params.id}`) endp = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    else if (history.location.pathname === `/drinks/${params.id}`) endp = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    const response = await fetch(endp);
     const result = await response.json();
-    if (pathnameToCompare[1] === 'meals') {
-      setRecomendations(result.drinks.slice(0, SEIS));
-    } else if (pathnameToCompare[1] === 'drinks') {
-      setRecomendationsD(result.meals.slice(0, SEIS));
+    if (history.location.pathname === `/meals/${params.id}`) {
+      setRecomendations(result.drinks.slice(0, '6'));
+    } else if (history.location.pathname === `/drinks/${params.id}`) {
+      setRecomendationsD(result.meals.slice(0, '6'));
     }
-    console.log(recomendations);
-    console.log(recomendationsD);
   };
-
   useEffect(() => {
     requestdetailsRecipe();
     requestRecomendations();
   }, []);
-
   const handleClick = () => {
-    const pathnameToCompare = history.location.pathname.split('/');
-    if (pathnameToCompare[1] === 'meals') {
+    if (history.location.pathname === `/meals/${params.id}`) {
       history.push(`/meals/${params.id}/in-progress`);
-    } else if (pathnameToCompare[1] === 'drinks') {
+    } else if (history.location.pathname === `/drinks/${params.id}`) {
       history.push(`/drinks/${params.id}/in-progress`);
     }
   };
-
   return (
     <div>
       {
@@ -105,41 +86,61 @@ export default function RecipeDetails() {
             <h3 data-testid="recipe-title">{item.strDrink}</h3>
             <p data-testid="recipe-category">{item.strAlcoholic}</p>
             <p data-testid="instructions">{item.strInstructions}</p>
-            <h3>Ingredients:</h3>
             { ingrediente.map((el, i) => (
               <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
                 { el}
               </p>
-
             )) }
-            <h3>Measures:</h3>
             {
               measure.map((e, i) => (
                 <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
                   { e}
                 </p>
-
               ))
             }
-            <h3>Recomendations:</h3>
-            { recomendationsD.map((e, i) => (
-              <div key={ i } data-testid={ `${i}-recommendation-card` }>
-                <p data-testid={ `${i}-recommendation-title` }>{e.strMeal}</p>
-                <img
-                  src={ e.strMealThumb }
-                  alt={ e.strMeal }
-                  data-testid="recipe-photo"
-                  style={ { width: '200px', height: '150px' } }
-                />
-              </div>
-            )) }
+            <div className="carousel">
+              { recomendationsD.map((e, i) => (
+                (i > contador - 2) && (i <= contador) ? (
+                  <div
+                    className="carouselF"
+                    key={ i }
+                    data-testid={ `${i}-recommendation-card` }
+                  >
+                    <p data-testid={ `${i}-recommendation-title` }>{e.strMeal}</p>
+                    <div className="image">
+                      <img
+                        src={ e.strMealThumb }
+                        alt={ e.strMeal }
+                        data-testid="recipe-photo"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className="carouselF"
+                    key={ i }
+                    data-testid={ `${i}-recommendation-card` }
+                    style={ { display: 'none' } }
+                  >
+                    <p data-testid={ `${i}-recommendation-title` }>{e.strMeal}</p>
+                    <div className="image">
+                      <img
+                        src={ e.strMealThumb }
+                        alt={ e.strMeal }
+                        data-testid="recipe-photo"
+                      />
+                    </div>
+                  </div>
+                )
+              )) }
+            </div>
+            <button type="button" onClick={ () => setContador(contador - 2) }>⇐</button>
+            <button type="button" onClick={ () => setContador(contador + 2) }>⇒</button>
           </div>
         ))
       }
-
       {
         (mealsRoute) && detailsIDMeals.meals.map((item, index) => (
-
           <div key={ index }>
             <img
               src={ item.strMealThumb }
@@ -150,27 +151,16 @@ export default function RecipeDetails() {
             <h3 data-testid="recipe-title">{item.strMeal}</h3>
             <p data-testid="recipe-category">{item.strCategory}</p>
             <p data-testid="instructions">{item.strInstructions}</p>
-            <h3>Ingredients:</h3>
             { ingrediente.map((e, i) => (
-              <p
-                key={ i }
-                data-testid={ `${i}-ingredient-name-and-measure` }
-              >
+              <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
                 { e}
-
               </p>
             )) }
-            <h3>Measures:</h3>
-            {
-              measure.map((el, idx) => (
-                <p
-                  key={ idx }
-                  data-testid={ `${idx}-ingredient-name-and-measure` }
-                >
-                  {el}
-                </p>
-              ))
-            }
+            { measure.map((el, idx) => (
+              <p key={ idx } data-testid={ `${idx}-ingredient-name-and-measure` }>
+                {el}
+              </p>
+            ))}
             <iframe
               width="420"
               height="315"
@@ -178,28 +168,49 @@ export default function RecipeDetails() {
               title={ item.strMeal }
               data-testid="video"
             />
-            <h3>Recomendations:</h3>
-            { recomendations.map((el, idx) => (
-              <div key={ idx } data-testid={ `${idx}-recommendation-card` }>
-                <p data-testid={ `${idx}-recommendation-title` }>{el.strDrink}</p>
-                <img
-                  src={ el.strDrinkThumb }
-                  alt={ el.strMeal }
-                  data-testid="recipe-photo"
-                  style={ { width: '200px', height: '150px' } }
-                />
-              </div>
-            )) }
+            <div className="carousel">
+              { recomendations.map((e, i) => (
+                (i > contador - 2) && (i <= contador) ? (
+                  <div
+                    className="carouselF"
+                    key={ i }
+                    data-testid={ `${i}-recommendation-card` }
+                  >
+                    <p data-testid={ `${i}-recommendation-title` }>{e.strDrink}</p>
+                    <div className="image">
+                      <img
+                        src={ e.strDrinkThumb }
+                        alt={ e.strDrink }
+                        data-testid="recipe-photo"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className="carouselF"
+                    key={ i }
+                    data-testid={ `${i}-recommendation-card` }
+                    style={ { display: 'none' } }
+                  >
+                    <p data-testid={ `${i}-recommendation-title` }>{e.strDrink}</p>
+                    <div className="image">
+                      <img
+                        src={ e.strDrinkThumb }
+                        alt={ e.strDrink }
+                        data-testid="recipe-photo"
+                      />
+                    </div>
+                  </div>
+                )
+              )) }
+            </div>
+            <button type="button" onClick={ () => setContador(contador - 2) }>⇐</button>
+            <button type="button" onClick={ () => setContador(contador + 2) }>⇒</button>
           </div>
         ))
       }
-
-      <button type="button" data-testid="favorite-btn">
-        Favorite
-      </button>
-      <button type="button" data-testid="share-btn">
-        Share
-      </button>
+      <button type="button" data-testid="favorite-btn">Favorite</button>
+      <button type="button" data-testid="share-btn">Share</button>
       <button
         onClick={ handleClick }
         className="recipesDetails"
