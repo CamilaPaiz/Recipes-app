@@ -211,8 +211,6 @@ export default function RecipeDetails() {
           </div>
         ))
       }
-      <button type="button" data-testid="favorite-btn">Favorite</button>
-      <button type="button" data-testid="share-btn">Share</button>
       <button
         onClick={ handleClick }
         className="recipesDetails"

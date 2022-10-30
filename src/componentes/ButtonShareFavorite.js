@@ -8,11 +8,11 @@ export default function ButtonShareFavorite() {
   const { location } = useHistory();
   const [copyUrl, setCopy] = useState(false);
 
-  const handleShareBtn = () => {
+  const handleShareBtn = async () => {
     const TIME = 2000;
     const urlCopied = `http://localhost:3000${location.pathname}`;
     setCopy(true);
-    copy(urlCopied);
+    await copy(urlCopied);
     setTimeout(() => setCopy(false), TIME);
     console.log(copy(urlCopied));
   };
@@ -32,7 +32,7 @@ export default function ButtonShareFavorite() {
       >
         <img src={ shareIcon } alt="shareicon" />
       </button>
-      {copyUrl && <p>Link copied!</p>}
+      {copyUrl && <span>Link copied!</span>}
     </div>
   );
 }
