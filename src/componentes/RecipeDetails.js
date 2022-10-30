@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import '../style/recipesDetails.css';
+import ButtonShareFavorite from './ButtonShareFavorite';
 
 export default function RecipeDetails() {
   const history = useHistory();
@@ -74,6 +75,7 @@ export default function RecipeDetails() {
   };
   return (
     <div>
+      <ButtonShareFavorite />
       {
         drinkRoute && detailsIDDrinks.drinks.map((item, index) => (
           <div key={ index }>
@@ -209,8 +211,6 @@ export default function RecipeDetails() {
           </div>
         ))
       }
-      <button type="button" data-testid="favorite-btn">Favorite</button>
-      <button type="button" data-testid="share-btn">Share</button>
       <button
         onClick={ handleClick }
         className="recipesDetails"
