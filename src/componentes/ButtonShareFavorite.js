@@ -9,8 +9,8 @@ export default function ButtonShareFavorite() {
   const [copyUrl, setCopy] = useState(false);
 
   const handleShareBtn = () => {
-    const TIME = 3000;
-    const urlCopied = `http://localhost:3000/${location.pathname}`;
+    const TIME = 2000;
+    const urlCopied = `http://localhost:3000${location.pathname}`;
     setCopy(true);
     copy(urlCopied);
     setTimeout(() => setCopy(false), TIME);
