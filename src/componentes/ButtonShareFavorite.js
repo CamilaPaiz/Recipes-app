@@ -6,8 +6,6 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 export default function ButtonShareFavorite() {
-  // const { detailsIDMeals/* , setDetailsIDMeals */ } = useContext(RecipeContext);
-  // const { detailsIDDrinks/* , setDetailsIDDrinks */ } = useContext(RecipeContext);
   const { favorite/* , setFavorite  */ } = useContext(RecipeContext);
   console.log(favorite);
   const { location } = useHistory();
