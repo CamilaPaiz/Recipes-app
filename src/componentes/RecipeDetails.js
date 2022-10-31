@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import RecipeContext from '../context/RecipeContext';
 import '../style/recipesDetails.css';
 import ButtonShareFavorite from './ButtonShareFavorite';
 
 export default function RecipeDetails() {
   const history = useHistory();
   const params = useParams();
-  const [detailsIDMeals, setDetailsIDMeals] = useState([]);
-  const [detailsIDDrinks, setDetailsIDDrinks] = useState([]);
+  const { detailsIDMeals, setDetailsIDMeals } = useContext(RecipeContext);
+  const { detailsIDDrinks, setDetailsIDDrinks } = useContext(RecipeContext);
+  const { favorite, setFavorite } = useContext(RecipeContext);
+  console.log(favorite);
   const [drinkRoute, setdrinkRoute] = useState(false);
   const [mealsRoute, setmealsRoute] = useState(false);
   const [ingrediente, setIngrediente] = useState([]);
@@ -24,6 +27,7 @@ export default function RecipeDetails() {
     const result = await response.json();
     if (history.location.pathname === `/meals/${params.id}`) {
       setDetailsIDMeals(result);
+      setFavorite(result);
       const respondeApi = result.meals[0];
       const pegaIngrediente = Object.entries(respondeApi)
         .filter((ingred) => ingred[0].includes('strIngredient')
@@ -37,6 +41,7 @@ export default function RecipeDetails() {
       setdrinkRoute(false);
     } else if (history.location.pathname === `/drinks/${params.id}`) {
       setDetailsIDDrinks(result);
+      setFavorite(result);
       const respondeApiD = result.drinks[0];
       const pegaIngredienteD = Object.entries(respondeApiD)
         .filter((ingred) => ingred[0].includes('strIngredient')
