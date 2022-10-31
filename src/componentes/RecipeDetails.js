@@ -10,6 +10,7 @@ export default function RecipeDetails() {
   const { detailsIDMeals, setDetailsIDMeals } = useContext(RecipeContext);
   const { detailsIDDrinks, setDetailsIDDrinks } = useContext(RecipeContext);
   const { favorite, setFavorite } = useContext(RecipeContext);
+  console.log(favorite);
   const [drinkRoute, setdrinkRoute] = useState(false);
   const [mealsRoute, setmealsRoute] = useState(false);
   const [ingrediente, setIngrediente] = useState([]);
