@@ -15,6 +15,9 @@ function RecipeProvider({ children }) {
   const [mealsRecipes, setMealsRecipes] = useState([]);
   const [drinkRecipes, setDrinkRecipes] = useState([]);
   const [teste, setTeste] = useState(false);
+  const [detailsIDMeals, setDetailsIDMeals] = useState([]);
+  const [detailsIDDrinks, setDetailsIDDrinks] = useState([]);
+  const [favorite, setFavorite] = useState([]);
 
   useEffect(() => {
     const verifyBtn = () => {
@@ -174,6 +177,12 @@ function RecipeProvider({ children }) {
     mealsRecipes,
     drinkRecipes,
     teste,
+    detailsIDMeals,
+    setDetailsIDMeals,
+    detailsIDDrinks,
+    setDetailsIDDrinks,
+    favorite,
+    setFavorite,
     getEmail,
     setData,
     handleBtnSearch,
