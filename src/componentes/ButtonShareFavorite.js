@@ -1,9 +1,10 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import RecipeContext from '../context/RecipeContext';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHearticon from '../images/blackHeartIcon.svg';
 
 export default function ButtonShareFavorite() {
   const { favorite/* , setFavorite  */ } = useContext(RecipeContext);
@@ -11,6 +12,8 @@ export default function ButtonShareFavorite() {
   const { location } = useHistory();
   const params = useParams();
   const [copyUrl, setCopy] = useState(false);
+  const [heart, setHeart] = useState(false);
+
   const handleShareBtn = async () => {
     const TIME = 2000;
     const urlCopied = `http://localhost:3000${location.pathname}`;
@@ -45,19 +48,36 @@ export default function ButtonShareFavorite() {
       };
     }
     console.log(recipe);
-    const favoritList = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const favoritList = JSON
+      .parse(localStorage.getItem('favoriteRecipes', 'heart')) || [];
     const favoriteList = [...favoritList, recipe];
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteList));
+    localStorage.setItem('heart', heart);
   };
+
+  useEffect(() => {
+    setHeart(localStorage.getItem('heart'));
+  }, []);
 
   return (
     <div>
       <button
         type="button"
-        data-testid="favorite-btn"
+        /*  data-testid="favorite-btn" */
         onClick={ () => handleFavoriteBtn() }
       >
-        <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
+        {/*  {
+          heart
+            ? (<img src={ blackHearticon } alt="blackHearticon" />)
+            : (<img src={ whiteHeartIcon } alt="whiteHeartIcon" />)
+        } */}
+
+        <img
+          src={ heart ? blackHearticon : whiteHeartIcon }
+          alt="blackHearticon"
+          data-testid="favorite-btn"
+        />
+
       </button>
       <button
         type="button"
