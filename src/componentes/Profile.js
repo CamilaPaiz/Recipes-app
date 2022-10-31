@@ -9,7 +9,7 @@ function Profile() {
   const { email, getEmail } = useContext(RecipeContext);
 
   const handleClickLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.clear();
     return history.push('/');
   };
 
