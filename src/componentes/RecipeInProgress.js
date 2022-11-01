@@ -6,26 +6,94 @@ import '../style/recipeInProgress.css';
  */
 export default function RecipeInProgress() {
   let edId;
+  const mil = 1000;
   const arrayIngredients = [];
-  const riscar = ({ target }) => {
-    const { parentNode } = target;
-    if (parentNode.children[0].className === ''
-     || parentNode.children[0].className === 'desrasbicar') {
-      parentNode.children[0].className = 'riscar';
-    } else {
-      parentNode.children[0].className = 'desrasbicar';
-    }
-    console.log(parentNode.children[0].className);
-  };
   const history = useHistory();
   const local = history.location.pathname;
   const mealss = local.includes('meals');
   const id = local.replace(/[^0-9]/g, '');
-  console.log(id);
+  // console.log(id);
   const drinks = local.includes('drinks');
   const [apis, setApis] = useState();
+  const [bool, setBool] = useState([]);
+  const [stringIngredients, setStringIngredients] = useState('');
+  const verificarCheckbox = () => {
+    const ab = document.querySelectorAll('label');
+    for (let index = 0; index < ab.length; index += 1) {
+      if (ab[index].innerHTML.includes('checked')) {
+        const teste = [];
+        teste.push('true');
+        setBool(teste);
+      } else {
+        const test = [];
+        test.push('false');
+        setBool(test);
+      }
+    }
+  };
+  setTimeout(verificarCheckbox, mil);
+  const pegarDoLocal = () => {
+    if (localStorage.getItem('inProgressRecipes') !== null) {
+      const localS = localStorage.getItem('inProgressRecipes');
+      if (localS[0] === ',') {
+        localS.substring(1);
+        const a = localS.substring(1);
+        setStringIngredients(a);
+      } else {
+        setStringIngredients(localS);
+      }
+    }
+  };
+  const copiarTexto = ({ target }) => {
+    const text = target.parentNode.children[1].src;
+    navigator.clipboard.writeText(text);
+    global.alert('Link copied!');
+  };
+  const riscar = ({ target }) => {
+    let a;
+    if (stringIngredients !== '') {
+      a = stringIngredients;
+    }
+    const text = target.parentNode.children[0].textContent;
+    const adicionarText = `${a},${text}`;
+    setStringIngredients(adicionarText);
+    localStorage.setItem('inProgressRecipes', adicionarText);
+  };
+
+  const concluir = () => {
+    const c = (mealss) ? 'meals' : 'drinks';
+    const as = [];
+    const obj = JSON.parse(localStorage.getItem('doneRecipes')) || as;
+    const a = obj;
+    console.log(apis[c][0]);
+    if (mealss) {
+      a.push({ id: apis[c][0].idMeal,
+        nationality: apis[c][0].strArea || '',
+        name: apis[c][0].strMeal,
+        category: apis[c][0].strCategory,
+        image: apis[c][0].strMealThumb,
+        tags: apis[c][0].strTags || '',
+        alcoholicOrNot: apis[c][0].strMealAlternate || '',
+        type: 'meal',
+        doneDate: '',
+      });
+    } else if (drinks) {
+      a.push({ id: apis[c][0].idDrink,
+        nationality: apis[c][0].strArea || '',
+        name: apis[c][0].strDrink,
+        category: apis[c][0].strCategory,
+        image: apis[c][0].strDrinkThumb,
+        tags: apis[c][0].strTags || '',
+        alcoholicOrNot: apis[c][0].strDrinkAlternate || '',
+        type: 'drink',
+        doneDate: '',
+      });
+    }
+    localStorage.setItem('doneRecipes', JSON.stringify(a));
+    history.push('/done-recipes');
+  };
+
   const array = () => {
-    // }
     let ingredients;
     if (mealss) {
       ingredients = Object.entries(apis.meals[0])
@@ -48,13 +116,11 @@ export default function RecipeInProgress() {
     const response = await fetch(edId);
     const result = await response.json();
     setApis(result);
-    // array();
   };
-  console.log(arrayIngredients);
   useEffect(() => {
     api();
+    pegarDoLocal();
   }, []);
-  console.log(apis);
 
   return (
     <div>
@@ -72,7 +138,13 @@ export default function RecipeInProgress() {
                 data-testid="recipe-photo"
                 alt="imagem receita em progresso"
               />
-              <button type="button" data-testid="share-btn">Share</button>
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ copiarTexto }
+              >
+                Share
+              </button>
               <button type="button" data-testid="favorite-btn">Favorite</button>
               <p data-testid="recipe-category">{ apis.meals[0].strCategory }</p>
               <p
@@ -80,36 +152,32 @@ export default function RecipeInProgress() {
               >
                 { apis.meals[0].strInstructions }
               </p>
-              <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
+              <button
+                disabled={ !!bool.includes('false') }
+                type="button"
+                data-testid="finish-recipe-btn"
+                onClick={ concluir }
+              >
+                Finish Recipe
+
+              </button>
               <br />
-              {/* {arrayIngredients.map((ele, index) => {
-                return (
-                  <div key={ index }>
-                    {apis.meals[0][i] !== '' && apis.meals[0][i] !== null && (
-                      <label
-                        htmlFor="ks"
-                        data-testid={ `${index}-ingredient-step` }
-                      >
-                        <h2>{apis.meals[0][i]}</h2>
-                        <input type="checkbox" />
-                      </label>
-                    )}
-                  </div>
-                );
-              })} */}
-              {/* {
-                const i = 'strIngredient';
-              } */}
               {arrayIngredients[0].map((element, index) => (
                 <label
                   key={ index }
                   htmlFor="sa"
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  <h2>{element[0]}</h2>
+                  <h2
+                    style={ { textDecoration: stringIngredients.includes(element[0])
+                      ? 'line-through solid rgb(0, 0, 0)' : '' } }
+                  >
+                    {element[0]}
+                  </h2>
                   <input
                     type="checkbox"
-                    // onClick={ riscar }
+                    defaultChecked={ stringIngredients.includes(element[0]) }
+                    onClick={ riscar }
                   />
                 </label>
               ))}
@@ -127,7 +195,13 @@ export default function RecipeInProgress() {
                 data-testid="recipe-photo"
                 alt="imagem receita em progresso"
               />
-              <button type="button" data-testid="share-btn">Share</button>
+              <button
+                type="button"
+                data-testid="share-btn"
+                onClick={ copiarTexto }
+              >
+                Share
+              </button>
               <button type="button" data-testid="favorite-btn">Favorite</button>
               <p data-testid="recipe-category">{ apis.drinks[0].strCategory }</p>
               <p
@@ -135,7 +209,14 @@ export default function RecipeInProgress() {
               >
                 { apis.drinks[0].strInstructions }
               </p>
-              <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
+              <button
+                disabled={ !!bool.includes('false') }
+                type="button"
+                data-testid="finish-recipe-btn"
+                onClick={ concluir }
+              >
+                Finish Recipe
+              </button>
               <br />
               {arrayIngredients[0].map((element, index) => (
                 <label
@@ -143,9 +224,16 @@ export default function RecipeInProgress() {
                   htmlFor="sass"
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  <h2>{element[0]}</h2>
+                  <h2
+                    style={ { textDecoration: stringIngredients.includes(element[0])
+                      ? 'line-through solid rgb(0, 0, 0)'
+                      : 'none solid rgb(33, 37, 41)' } }
+                  >
+                    {element[0]}
+                  </h2>
                   <input
                     type="checkbox"
+                    defaultChecked={ stringIngredients.includes(element[0]) }
                     onClick={ riscar }
                   />
                 </label>
