@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './renderWith';
@@ -8,7 +8,6 @@ describe('Verifica o Recipe Details', () => {
   const entrie = ['/drinks/12776'];
   const entrieMeals = ['/meals/52777'];
   const idPhoto = 'recipe-photo';
-  const stringEntrie = '/drinks/12776';
 
   it('Ao clicar no start recipe drinks muda para a pagina recipe in progress', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: entrie });
