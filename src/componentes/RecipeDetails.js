@@ -18,6 +18,7 @@ export default function RecipeDetails() {
   const [recomendations, setRecomendations] = useState([]);
   const [recomendationsD, setRecomendationsD] = useState([]);
   const [contador, setContador] = useState(1);
+  const [startRec/* , setstartRec */] = useState(true);
 
   const requestdetailsRecipe = async () => {
     let edId;
@@ -216,14 +217,17 @@ export default function RecipeDetails() {
           </div>
         ))
       }
+      <br />
+
       <button
         onClick={ handleClick }
         className="recipesDetails"
         data-testid="start-recipe-btn"
         type="button"
       >
-        Start Recipe
+        { startRec === false ? 'Start Recipe' : 'Continue Recipe' }
       </button>
+
     </div>
   );
 }
