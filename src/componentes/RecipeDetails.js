@@ -225,7 +225,7 @@ export default function RecipeDetails() {
         data-testid="start-recipe-btn"
         type="button"
       >
-        { startRec === false ? 'Start Recipe' : 'Continue Recipe' }
+        { startRec ? 'Start Recipe' : 'Continue Recipe' }
       </button>
 
     </div>
