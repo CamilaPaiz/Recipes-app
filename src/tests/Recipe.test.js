@@ -4,25 +4,6 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './renderWith';
 
-// it('teste o igual a', async () => {
-//   render(<App />);
-//   const select = screen.getByTestId('column-filter');
-//   const selectOperador = screen.getByTestId('comparison-filter');
-//   const inputValor = screen.getByTestId('value-filter');
-//   const button = screen.getByRole('button', { name: 'Filtrar' })
-//   expect(select).toBeInTheDocument();
-//   expect(selectOperador).toBeInTheDocument();
-//   expect(inputValor).toBeInTheDocument();
-//   expect(button).toBeInTheDocument();
-//   userEvent.selectOptions(select, ['rotation_period']);
-//   userEvent.selectOptions(selectOperador, ['igual a']);
-//   userEvent.type(inputValor, '27');
-//   userEvent.click(button);
-//   const todosPlanetas = await screen
-//     .findAllByTestId('cadaPlaneta', undefined, { timeout: 3000 });
-//   expect(todosPlanetas.length).toBe(10);
-// })
-
 const beefCategory = 'Beef-category-filter';
 const BreakCate = 'Breakfast-category-filter';
 const un = undefined;
@@ -48,7 +29,7 @@ describe('Testes no recipes', () => {
     const BeefAndMustard = await screen.findByTestId(Img0, undefined, { timeout: 3000 });
     expect(BeefAndMustard).toBeInTheDocument();
     userEvent.click(BeefAndMustard);
-    expect(history.location.pathname).toBe('/meals/52874');
+    expect(history.location.pathname).toBe('/meals/52977');
   });
   it('Se acha os botoes depois da api no drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
@@ -137,7 +118,7 @@ describe('Clicar em todos os filtros', () => {
     const Florida = await screen.findByTestId('3-recipe-card', undefined, { timeout: 3000 });
     expect(Florida).toBeInTheDocument();
     userEvent.click(Florida);
-    expect(history.location.pathname).toBe('/drinks/17222');
+    expect(history.location.pathname).toBe('/drinks/17203');
   });
   it('Outros Meals ', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
@@ -160,4 +141,61 @@ describe('Clicar em todos os filtros', () => {
     const Outro = await screen.findByTestId('0-recipe-card', undefined, { timeout: 3000 });
     expect(Outro).toBeInTheDocument();
   });
+  it('verifica renderização de elementos da Api em m eals', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const corba = await screen.findByRole('img', { name: /corba/i });
+    expect(corba).toBeInTheDocument();
+    userEvent.click(corba);
+    expect(history.location.pathname).toBe('/meals/52977');
+  });
+  it('verifica renderização de elementos da Api em drinks', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const image = await screen.findByRole('img', { name: /gg/i });
+    expect(image).toBeInTheDocument();
+    userEvent.click(image);
+    expect(history.location.pathname).toBe('/drinks/15997');
+  });
+  it('verifica renderização de elementos da Api em drinks', async () => {
+    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const card = await screen.findAllByTestId(/-recipe-card/i);
+    expect(card).toHaveLength(12);
+  });
+  it('verifica renderização de elementos da Api em meals', async () => {
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const card = await screen.findAllByTestId(/-recipe-card/i);
+    expect(card).toHaveLength(12);
+  });
+  it('verifica click breaksfast', async () => {
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const buttonBreakfast = await screen.findByTestId('Breakfast-category-filter');
+    expect(buttonBreakfast).toBeInTheDocument();
+    userEvent.click(buttonBreakfast);
+    const newImage = await screen.findByRole('img', { name: /breakfast potatoes/i });
+    expect(newImage).toBeInTheDocument();
+  });
+  /* it('verifica click beef', async () => {
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const button = await screen.findByTestId('Beef-category-filter');
+    expect(button).toBeInTheDocument();
+    userEvent.click(button);
+    const newImage = await screen.findByTestId(/-card-img/i);
+    expect(newImage).toHaveLength(12);
+  }); */
+  /* it('verifica click shake', async () => {
+    const filter = 'Shake-category-filter';
+    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const button = await screen.findByTestId(filter);
+    expect(button).toBeInTheDocument();
+    userEvent.click(button);
+    const newImage = await screen.findByTestId(/-card-img/i);
+    expect(newImage).toHaveLength(12);
+  }); */
+ /*  it('verifica click drinks', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const filter = await screen.findByTestId(/-card-img/i);
+
+    expect(filter).toBeInTheDocument();
+    userEvent.click(filter);
+    expect(history.location.pathname).toBe('/drinks/:id');
+  }); */
 });
