@@ -6,7 +6,7 @@ import '../style/recipeInProgress.css';
  */
 export default function RecipeInProgress() {
   let edId;
-  const arrayVinte = [];
+  const arrayIngredients = [];
   const riscar = ({ target }) => {
     const { parentNode } = target;
     if (parentNode.children[0].className === ''
@@ -17,36 +17,29 @@ export default function RecipeInProgress() {
     }
     console.log(parentNode.children[0].className);
   };
-  // const zero = 0;
   const history = useHistory();
   const local = history.location.pathname;
-  // const id = local.slice(sete, doze);
   const mealss = local.includes('meals');
   const id = local.replace(/[^0-9]/g, '');
-  const vinte = 20;
-  const quinze = 15;
   console.log(id);
   const drinks = local.includes('drinks');
   const [apis, setApis] = useState();
   const array = () => {
+    // }
+    let ingredients;
     if (mealss) {
-      for (let index = 1; index <= vinte; index += 1) {
-        const i = `strIngredient${index}`;
-        if (apis.meals[0][i] !== '' && apis.meals[0][i] !== null) {
-          arrayVinte.push(i);
-        }
-      }
-    } else if (drinks) {
-      for (let ind = 1; ind <= quinze; ind += 1) {
-        const i = `strIngredient${ind}`;
-        if (apis.drinks[0][i] !== null) {
-          arrayVinte.push(i);
-        }
-      }
+      ingredients = Object.entries(apis.meals[0])
+        .filter((a) => a[0].includes('strIngredient'));
+    } else {
+      ingredients = Object.entries(apis.drinks[0])
+        .filter((a) => a[0].includes('strIngredient'));
     }
+    const a = ingredients.map((
+      e,
+    ) => e.slice(1)).filter((b) => b[0] !== '' && b[0] !== null);
+    arrayIngredients.push(a);
   };
   if (apis !== undefined) {
-    // console.log(apis.drinks[0]);
     array();
   }
   const api = async () => {
@@ -57,7 +50,7 @@ export default function RecipeInProgress() {
     setApis(result);
     // array();
   };
-  console.log(arrayVinte);
+  console.log(arrayIngredients);
   useEffect(() => {
     api();
   }, []);
@@ -89,7 +82,7 @@ export default function RecipeInProgress() {
               </p>
               <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
               <br />
-              {/* {arrayVinte.map((ele, index) => {
+              {/* {arrayIngredients.map((ele, index) => {
                 return (
                   <div key={ index }>
                     {apis.meals[0][i] !== '' && apis.meals[0][i] !== null && (
@@ -107,16 +100,16 @@ export default function RecipeInProgress() {
               {/* {
                 const i = 'strIngredient';
               } */}
-              {arrayVinte.map((element, index) => (
+              {arrayIngredients[0].map((element, index) => (
                 <label
                   key={ index }
                   htmlFor="sa"
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  <h2>{apis.meals[0][element]}</h2>
+                  <h2>{element[0]}</h2>
                   <input
                     type="checkbox"
-                    onClick={ riscar }
+                    // onClick={ riscar }
                   />
                 </label>
               ))}
@@ -144,14 +137,17 @@ export default function RecipeInProgress() {
               </p>
               <button type="button" data-testid="finish-recipe-btn">Finish Recipe</button>
               <br />
-              {arrayVinte.map((element, index) => (
+              {arrayIngredients[0].map((element, index) => (
                 <label
                   key={ index }
                   htmlFor="sass"
                   data-testid={ `${index}-ingredient-step` }
                 >
-                  <h2>{apis.drinks[0][element]}</h2>
-                  <input type="checkbox" onClick={ riscar } />
+                  <h2>{element[0]}</h2>
+                  <input
+                    type="checkbox"
+                    onClick={ riscar }
+                  />
                 </label>
               ))}
             </div>
