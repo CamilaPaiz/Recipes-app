@@ -13,6 +13,7 @@ const urlDrink = '/drinks/15997';
 describe('Testes no recipes', () => {
   it('Se acha os botoes depois da api', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const newPath = '/meals/52977';
     const buttonBeef = await screen.findByTestId(beefCategory, un, { timeout: 3000 });
     const Breakfast = await screen.findByTestId(BreakCate, undefined, { timeout: 3000 });
     const Chicken = await screen.findByTestId('Chicken-category-filter', undefined, { timeout: 3000 });
@@ -29,7 +30,7 @@ describe('Testes no recipes', () => {
     const BeefAndMustard = await screen.findByTestId(Img0, undefined, { timeout: 3000 });
     expect(BeefAndMustard).toBeInTheDocument();
     userEvent.click(BeefAndMustard);
-    expect(history.location.pathname).toBe('/meals/52977');
+    expect(history.location.pathname).toBe(newPath);
   });
   it('Se acha os botoes depois da api no drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
@@ -101,6 +102,7 @@ describe('Clicar em todos os filtros', () => {
     expect(history.location.pathname).toBe(urlDrink);
   });
   it('Outross Meals', async () => {
+    const path = '/meals/52977';
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
     const buttonBreak = await screen.findByTestId(BreakCate, un, { timeout: 3000 });
     expect(buttonBreak).toBeInTheDocument();
@@ -108,7 +110,7 @@ describe('Clicar em todos os filtros', () => {
     const Beef = await screen.findByTestId(Img0, undefined, { timeout: 3000 });
     expect(Beef).toBeInTheDocument();
     userEvent.click(Beef);
-    expect(history.location.pathname).toBe('/meals/52977');
+    expect(history.location.pathname).toBe(path);
   });
   it('Outros Drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
@@ -143,10 +145,11 @@ describe('Clicar em todos os filtros', () => {
   });
   it('verifica renderização de elementos da Api em m eals', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const path = '/meals/52977';
     const corba = await screen.findByRole('img', { name: /corba/i });
     expect(corba).toBeInTheDocument();
     userEvent.click(corba);
-    expect(history.location.pathname).toBe('/meals/52977');
+    expect(history.location.pathname).toBe(path);
   });
   it('verifica renderização de elementos da Api em drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
@@ -190,7 +193,7 @@ describe('Clicar em todos os filtros', () => {
     const newImage = await screen.findByTestId(/-card-img/i);
     expect(newImage).toHaveLength(12);
   }); */
- /*  it('verifica click drinks', async () => {
+  /*  it('verifica click drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
     const filter = await screen.findByTestId(/-card-img/i);
 
