@@ -27,7 +27,7 @@ export default function RecipeDetails() {
     const result = await response.json();
     if (history.location.pathname === `/meals/${params.id}`) {
       setDetailsIDMeals(result);
-      setFavorite(result);
+      setFavorite([result]);
       const respondeApi = result.meals[0];
       const pegaIngrediente = Object.entries(respondeApi)
         .filter((ingred) => ingred[0].includes('strIngredient')
@@ -41,7 +41,7 @@ export default function RecipeDetails() {
       setdrinkRoute(false);
     } else if (history.location.pathname === `/drinks/${params.id}`) {
       setDetailsIDDrinks(result);
-      setFavorite(result);
+      setFavorite([result]);
       const respondeApiD = result.drinks[0];
       const pegaIngredienteD = Object.entries(respondeApiD)
         .filter((ingred) => ingred[0].includes('strIngredient')

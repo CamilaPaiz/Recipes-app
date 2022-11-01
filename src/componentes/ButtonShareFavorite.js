@@ -8,7 +8,7 @@ import blackHearticon from '../images/blackHeartIcon.svg';
 
 export default function ButtonShareFavorite() {
   const { favorite/* , setFavorite  */ } = useContext(RecipeContext);
-  console.log(favorite);
+  // console.log(favorite);
   const { location } = useHistory();
   const params = useParams();
   const [copyUrl, setCopy] = useState(false);
@@ -24,15 +24,17 @@ export default function ButtonShareFavorite() {
   };
 
   const searchFavorite = () => {
-    const favoriteRecipes = localStorage.getItem('favoriteRecipes');
-    const favoriteReponse = async () => {
-      await favorite.some(({ id }, index) => id === favoriteRecipes[index].id);
-    };
-    if (favoriteReponse) setHeart(localStorage.getItem('heart'));
+    const favoriteRecipes = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+    const favoriteReponse = favoriteRecipes.some(({ id }) => id === params.id);
+
+    if (favoriteReponse) setHeart(!heart);
   };
 
   const handleFavoriteBtn = () => {
-    const { meals, drinks } = favorite;
+    const newFavorite = [...favorite];
+    console.log(newFavorite[0], ' ppp');
+    const { meals, drinks } = newFavorite[0];
     let recipe;
     if (location.pathname === `/meals/${params.id}`) {
       recipe = {
@@ -44,8 +46,7 @@ export default function ButtonShareFavorite() {
         name: meals[0].strMeal,
         image: meals[0].strMealThumb,
       };
-      setHeart(!heart);
-      searchFavorite();
+      // searchFavorite();
     } else if (location.pathname === `/drinks/${params.id}`) {
       recipe = {
         id: drinks[0].idDrink,
@@ -56,20 +57,24 @@ export default function ButtonShareFavorite() {
         name: drinks[0].strDrink,
         image: drinks[0].strDrinkThumb,
       };
-      setHeart(!heart);
-      searchFavorite();
+      // searchFavorite();
     }
     // console.log(recipe);
+    setHeart(!heart);
     const favoritList = JSON
-      .parse(localStorage.getItem('favoriteRecipes', 'heart')) || [];
-    const favoriteList = [...favoritList, recipe];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteList));
-    localStorage.setItem('heart', !heart);
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (favoritList.some(({ id }) => id === params.id)) {
+      const teste = favoritList.filter(({ id }) => id !== params.id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(teste));
+    } else {
+      const favoriteList = [...favoritList, recipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteList));
+    }
+    // localStorage.setItem('heart', !heart);
   };
 
   useEffect(() => {
-    setHeart(JSON
-      .parse(localStorage.getItem('heart')));
+    searchFavorite();
   }, []);
 
   return (
