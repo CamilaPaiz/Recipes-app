@@ -4,6 +4,9 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './renderWith';
 
+const b = 'start-recipe-btn';
+const shake = 'Shake-category-filter';
+const newPath = '/meals/52977';
 const beefCategory = 'Beef-category-filter';
 const BreakCate = 'Breakfast-category-filter';
 const un = undefined;
@@ -13,7 +16,6 @@ const urlDrink = '/drinks/15997';
 describe('Testes no recipes', () => {
   it('Se acha os botoes depois da api', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
-    const newPath = '/meals/52977';
     const buttonBeef = await screen.findByTestId(beefCategory, un, { timeout: 3000 });
     const Breakfast = await screen.findByTestId(BreakCate, undefined, { timeout: 3000 });
     const Chicken = await screen.findByTestId('Chicken-category-filter', undefined, { timeout: 3000 });
@@ -36,7 +38,7 @@ describe('Testes no recipes', () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
     const buttonOrdi = await screen.findByTestId('Ordinary Drink-category-filter', undefined, { timeout: 3000 });
     const Cocktail = await screen.findByTestId('Cocktail-category-filter', undefined, { timeout: 3000 });
-    const Shake = await screen.findByTestId('Shake-category-filter', undefined, { timeout: 3000 });
+    const Shake = await screen.findByTestId(shake, undefined, { timeout: 3000 });
     const Other = await screen.findByTestId('Other/Unknown-category-filter', undefined, { timeout: 3000 });
     const Cocoa = await screen.findByTestId('Cocoa-category-filter', undefined, { timeout: 3000 });
     const DrinksPadrao = await screen.findAllByTestId('DrinkPadrao', undefined, { timeout: 3000 });
@@ -102,7 +104,7 @@ describe('Clicar em todos os filtros', () => {
     expect(history.location.pathname).toBe(urlDrink);
   });
   it('Outross Meals', async () => {
-    const path = '/meals/52977';
+    /* const path = '/meals/52977'; */
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
     const buttonBreak = await screen.findByTestId(BreakCate, un, { timeout: 3000 });
     expect(buttonBreak).toBeInTheDocument();
@@ -110,11 +112,11 @@ describe('Clicar em todos os filtros', () => {
     const Beef = await screen.findByTestId(Img0, undefined, { timeout: 3000 });
     expect(Beef).toBeInTheDocument();
     userEvent.click(Beef);
-    expect(history.location.pathname).toBe(path);
+    expect(history.location.pathname).toBe(newPath);
   });
   it('Outros Drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
-    const buttonShake = await screen.findByTestId('Shake-category-filter', un, { timeout: 3000 });
+    const buttonShake = await screen.findByTestId(shake, un, { timeout: 3000 });
     expect(buttonShake).toBeInTheDocument();
     userEvent.click(buttonShake);
     const Florida = await screen.findByTestId('3-recipe-card', undefined, { timeout: 3000 });
@@ -143,21 +145,41 @@ describe('Clicar em todos os filtros', () => {
     const Outro = await screen.findByTestId('0-recipe-card', undefined, { timeout: 3000 });
     expect(Outro).toBeInTheDocument();
   });
-  it('verifica renderização de elementos da Api em m eals', async () => {
+  it('verifica renderização de elementos da Api em meals', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
     const path = '/meals/52977';
+    const button = await screen.findByRole('img', { name: /pesquisar/i });
+    expect(button).toBeInTheDocument();
     const corba = await screen.findByRole('img', { name: /corba/i });
     expect(corba).toBeInTheDocument();
     userEvent.click(corba);
+    const buttonStart = await screen.findByTestId(b);
+    expect(buttonStart).toBeInTheDocument();
     expect(history.location.pathname).toBe(path);
   });
   it('verifica renderização de elementos da Api em drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const button = await screen.findByRole('img', { name: /pesquisar/i });
+    expect(button).toBeInTheDocument();
     const image = await screen.findByRole('img', { name: /gg/i });
     expect(image).toBeInTheDocument();
     userEvent.click(image);
+    const buttonStart = await screen.findByTestId(b);
+    expect(buttonStart).toBeInTheDocument();
     expect(history.location.pathname).toBe('/drinks/15997');
   });
+  it('verifica  drinks', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const button = await screen.findByRole('img', { name: /pesquisar/i });
+    expect(button).toBeInTheDocument();
+    const image = await screen.findByRole('img', { name: /a1/i });
+    expect(image).toBeInTheDocument();
+    userEvent.click(image);
+    const buttonStart = await screen.findByTestId(b);
+    expect(buttonStart).toBeInTheDocument();
+    expect(history.location.pathname).toBe('/drinks/17222');
+  });
+
   it('verifica renderização de elementos da Api em drinks', async () => {
     renderWithRouter(<App />, { initialEntries: ['/drinks'] });
     const card = await screen.findAllByTestId(/-recipe-card/i);
@@ -184,21 +206,64 @@ describe('Clicar em todos os filtros', () => {
     const newImage = await screen.findByTestId(/-card-img/i);
     expect(newImage).toHaveLength(12);
   }); */
-  /* it('verifica click shake', async () => {
-    const filter = 'Shake-category-filter';
+  it('verifica click shake', async () => {
     renderWithRouter(<App />, { initialEntries: ['/drinks'] });
-    const button = await screen.findByTestId(filter);
+    const button = await screen.findByTestId(shake);
     expect(button).toBeInTheDocument();
     userEvent.click(button);
-    const newImage = await screen.findByTestId(/-card-img/i);
+    const newImage = await screen.findAllByTestId(/-card-img/i);
     expect(newImage).toHaveLength(12);
-  }); */
-  /*  it('verifica click drinks', async () => {
+  });
+  it('verifica click drinks', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
-    const filter = await screen.findByTestId(/-card-img/i);
+    /* const filter = await screen.findByTestId(/-card-img/i); */
+    const shakeb = await screen.findByRole('button', { name: /shake/i });
+    expect(shakeb).toBeInTheDocument();
+    userEvent.click(shakeb);
+    const teste = await screen.findByRole('img', { name: /151 florida bushwacker/i });
+    expect(teste).toBeInTheDocument();
+    userEvent.click(teste);
+    const buttonStart = await screen.findByTestId(b);
+    expect(buttonStart).toBeInTheDocument();
+    expect(history.location.pathname).toBe('/drinks/14588');
+  });
+  it('verifica click meals', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    /* const filter = await screen.findByTestId(/-card-img/i); */
+    const chicken = await screen.findByRole('button', { name: /chicken/i });
+    expect(chicken).toBeInTheDocument();
+    userEvent.click(chicken);
+    const teste = await screen.findByRole('img', { name: /ayam percik/i });
+    expect(teste).toBeInTheDocument();
+    userEvent.click(teste);
+    const buttonStart = await screen.findByTestId(b);
+    expect(buttonStart).toBeInTheDocument();
+    expect(history.location.pathname).toBe('/meals/53050');
+  });
+  it('verifica clique entre drink e meals', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    const button = await screen.findByRole('img', { name: /pesquisar/i });
+    expect(button).toBeInTheDocument();
+    const mealsbtn = await screen.findByRole('img', { name: /meals/i });
+    expect(mealsbtn).toBeInTheDocument();
+    userEvent.click(mealsbtn);
 
-    expect(filter).toBeInTheDocument();
-    userEvent.click(filter);
-    expect(history.location.pathname).toBe('/drinks/:id');
-  }); */
+    const btn = await screen.findByRole('img', { name: /perfil/i });
+    expect(btn).toBeInTheDocument();
+
+    expect(history.location.pathname).toBe('/meals');
+  });
+  it('verifica clique entre drink e meals', async () => {
+    const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    const button = await screen.findByRole('img', { name: /pesquisar/i });
+    expect(button).toBeInTheDocument();
+    const drinkbtn = await screen.findByRole('img', { name: /drink/i });
+    expect(drinkbtn).toBeInTheDocument();
+    userEvent.click(drinkbtn);
+
+    const btn = await screen.findByRole('img', { name: /perfil/i });
+    expect(btn).toBeInTheDocument();
+
+    expect(history.location.pathname).toBe('/drinks');
+  });
 });
