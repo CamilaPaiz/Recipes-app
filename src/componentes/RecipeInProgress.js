@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../style/recipeInProgress.css';
-// import RecipeContext from '../context/RecipeContext';
-/* import { detailsIDMeals, detailsIDDrinks } from './RecipeDetails';
- */
+import ButtonShareFavorite from './ButtonShareFavorite';
+
 export default function RecipeInProgress() {
   let edId;
   const mil = 1000;
@@ -12,11 +11,11 @@ export default function RecipeInProgress() {
   const local = history.location.pathname;
   const mealss = local.includes('meals');
   const id = local.replace(/[^0-9]/g, '');
-  // console.log(id);
   const drinks = local.includes('drinks');
   const [apis, setApis] = useState();
   const [bool, setBool] = useState([]);
   const [stringIngredients, setStringIngredients] = useState('');
+
   const verificarCheckbox = () => {
     const ab = document.querySelectorAll('label');
     for (let index = 0; index < ab.length; index += 1) {
@@ -44,11 +43,11 @@ export default function RecipeInProgress() {
       }
     }
   };
-  const copiarTexto = ({ target }) => {
+  /* const copiarTexto = ({ target }) => {
     const text = target.parentNode.children[1].src;
     navigator.clipboard.writeText(text);
-    global.alert('Link copied!');
-  };
+    setCopy(true);
+  }; */
   const riscar = ({ target }) => {
     let a;
     if (stringIngredients !== '') {
@@ -72,7 +71,7 @@ export default function RecipeInProgress() {
         name: apis[c][0].strMeal,
         category: apis[c][0].strCategory,
         image: apis[c][0].strMealThumb,
-        tags: apis[c][0].strTags || '',
+        tags: [apis[c][0].strTags] || [],
         alcoholicOrNot: apis[c][0].strMealAlternate || '',
         type: 'meal',
         doneDate: '',
@@ -83,7 +82,7 @@ export default function RecipeInProgress() {
         name: apis[c][0].strDrink,
         category: apis[c][0].strCategory,
         image: apis[c][0].strDrinkThumb,
-        tags: apis[c][0].strTags || '',
+        tags: [apis[c][0].strTags] || [],
         alcoholicOrNot: apis[c][0].strDrinkAlternate || '',
         type: 'drink',
         doneDate: '',
@@ -124,6 +123,7 @@ export default function RecipeInProgress() {
 
   return (
     <div>
+      <ButtonShareFavorite />
       {apis !== undefined ? (
         <div>
           {mealss && (
@@ -138,14 +138,6 @@ export default function RecipeInProgress() {
                 data-testid="recipe-photo"
                 alt="imagem receita em progresso"
               />
-              <button
-                type="button"
-                data-testid="share-btn"
-                onClick={ copiarTexto }
-              >
-                Share
-              </button>
-              <button type="button" data-testid="favorite-btn">Favorite</button>
               <p data-testid="recipe-category">{ apis.meals[0].strCategory }</p>
               <p
                 data-testid="instructions"
@@ -195,14 +187,6 @@ export default function RecipeInProgress() {
                 data-testid="recipe-photo"
                 alt="imagem receita em progresso"
               />
-              <button
-                type="button"
-                data-testid="share-btn"
-                onClick={ copiarTexto }
-              >
-                Share
-              </button>
-              <button type="button" data-testid="favorite-btn">Favorite</button>
               <p data-testid="recipe-category">{ apis.drinks[0].strCategory }</p>
               <p
                 data-testid="instructions"

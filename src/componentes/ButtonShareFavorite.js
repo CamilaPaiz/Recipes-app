@@ -33,7 +33,6 @@ export default function ButtonShareFavorite() {
 
   const handleFavoriteBtn = () => {
     const newFavorite = [...favorite];
-    console.log(newFavorite[0], ' ppp');
     const { meals, drinks } = newFavorite[0];
     let recipe;
     if (location.pathname === `/meals/${params.id}`) {
@@ -46,7 +45,6 @@ export default function ButtonShareFavorite() {
         name: meals[0].strMeal,
         image: meals[0].strMealThumb,
       };
-      // searchFavorite();
     } else if (location.pathname === `/drinks/${params.id}`) {
       recipe = {
         id: drinks[0].idDrink,
@@ -57,9 +55,7 @@ export default function ButtonShareFavorite() {
         name: drinks[0].strDrink,
         image: drinks[0].strDrinkThumb,
       };
-      // searchFavorite();
     }
-    // console.log(recipe);
     setHeart(!heart);
     const favoritList = JSON
       .parse(localStorage.getItem('favoriteRecipes')) || [];
@@ -70,7 +66,6 @@ export default function ButtonShareFavorite() {
       const favoriteList = [...favoritList, recipe];
       localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteList));
     }
-    // localStorage.setItem('heart', !heart);
   };
 
   useEffect(() => {
@@ -81,7 +76,6 @@ export default function ButtonShareFavorite() {
     <div>
       <button
         type="button"
-        /*  data-testid="favorite-btn" */
         onClick={ () => handleFavoriteBtn() }
       >
         <img
