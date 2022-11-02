@@ -11,14 +11,16 @@ describe('Verifica o Recipe Details', () => {
 
   it('Ao clicar no start recipe drinks muda para a pagina recipe in progress', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: entrie });
-    const buttonStartRecipe = await screen.findByRole('button', { name: /start recipe/i });
+    const buttonStartRecipe = await screen.findByTestId('start-recipe-btn');
     expect(buttonStartRecipe).toBeInTheDocument();
     userEvent.click(buttonStartRecipe);
+    // const buttonContinueRecipe = await screen.findByRole('button', { name: /continue recipe/i });
+    // expect(buttonContinueRecipe).toBeInTheDocument();
     expect(history.location.pathname).toBe('/drinks/12776/in-progress');
   });
   it('Ao clicar no start recipe meals muda para a pagina recipe in progress', async () => {
     const { history } = renderWithRouter(<App />, { initialEntries: entrieMeals });
-    const buttonStartRecipe = await screen.findByRole('button', { name: /start recipe/i });
+    const buttonStartRecipe = await screen.findByTestId('start-recipe-btn');
     expect(buttonStartRecipe).toBeInTheDocument();
     userEvent.click(buttonStartRecipe);
     expect(history.location.pathname).toBe('/meals/52777/in-progress');
