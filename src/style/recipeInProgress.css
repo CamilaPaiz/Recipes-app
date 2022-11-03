@@ -5,3 +5,9 @@
 .desrasbicar {
   text-decoration: none solid rgb(33, 37, 41);
 }
+
+.finishbtn {
+  background-color: #9ed7ff;
+  border-radius: 100px;
+  font-weight: 700;
+}

@@ -1,0 +1,21 @@
+.buttons {
+  background-color: #9ed7ff;
+  border: solid #111a35;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 500;
+  width: 85px;
+}
+
+.allbutton {
+  background-color: #9ed7ff;
+  border: solid #111a35;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 500;
+  width: 85px;
+}
+
+.div-buttons {
+  display: flex;
+}

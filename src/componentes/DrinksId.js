@@ -6,7 +6,7 @@ function DrinksId() {
   return (
     <div>
       <Header />
-      <h1>Teste DrinksId</h1>
+      <h1> Drinks Details</h1>
       <RecipeDetails />
     </div>
   );

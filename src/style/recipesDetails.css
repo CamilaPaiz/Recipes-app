@@ -1,4 +1,23 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
 .recipesDetails {
+  background-color: #9ed7ff;
+  border-radius: 100px;
   bottom: 0;
+  font-weight: 700;
   position: fixed;
 }
+
+.recipedetailbackg {
+  background-color: #111a35;
+  color: white;
+}
+

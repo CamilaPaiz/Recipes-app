@@ -5,7 +5,7 @@ function ProgressMeals() {
   return (
     <div>
       <Header />
-      <h1>Teste ProgressMeals</h1>
+      <h1>Meal in Progress...</h1>
       <RecipeInProgress />
     </div>
   );

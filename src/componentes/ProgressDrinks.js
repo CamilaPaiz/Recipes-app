@@ -6,7 +6,7 @@ function ProgressDrinks() {
   return (
     <div>
       <Header />
-      <h1>Teste ProgressDrinks</h1>
+      <h1>Drink in Progress...</h1>
       <RecipeInProgress />
     </div>
   );

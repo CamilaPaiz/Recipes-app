@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../style/recipeInProgress.css';
-// import RecipeContext from '../context/RecipeContext';
-/* import { detailsIDMeals, detailsIDDrinks } from './RecipeDetails';
- */
+import ButtonShareFavorite from './ButtonShareFavorite';
+
 export default function RecipeInProgress() {
   let edId;
   const mil = 1000;
@@ -12,11 +11,11 @@ export default function RecipeInProgress() {
   const local = history.location.pathname;
   const mealss = local.includes('meals');
   const id = local.replace(/[^0-9]/g, '');
-  // console.log(id);
   const drinks = local.includes('drinks');
   const [apis, setApis] = useState();
   const [bool, setBool] = useState([]);
   const [stringIngredients, setStringIngredients] = useState('');
+
   const verificarCheckbox = () => {
     const ab = document.querySelectorAll('label');
     for (let index = 0; index < ab.length; index += 1) {
@@ -44,11 +43,11 @@ export default function RecipeInProgress() {
       }
     }
   };
-  const copiarTexto = ({ target }) => {
+  /* const copiarTexto = ({ target }) => {
     const text = target.parentNode.children[1].src;
     navigator.clipboard.writeText(text);
-    global.alert('Link copied!');
-  };
+    setCopy(true);
+  }; */
   const riscar = ({ target }) => {
     let a;
     if (stringIngredients !== '') {
@@ -65,17 +64,22 @@ export default function RecipeInProgress() {
     const as = [];
     const obj = JSON.parse(localStorage.getItem('doneRecipes')) || as;
     const a = obj;
-    console.log(apis[c][0]);
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const newtoday = today.toISOString();
+
     if (mealss) {
+      const tags = apis[c][0].strTags;
+      const newtags = (tags.split(','));
       a.push({ id: apis[c][0].idMeal,
         nationality: apis[c][0].strArea || '',
         name: apis[c][0].strMeal,
         category: apis[c][0].strCategory,
         image: apis[c][0].strMealThumb,
-        tags: apis[c][0].strTags || '',
-        alcoholicOrNot: apis[c][0].strMealAlternate || '',
+        tags: newtags || [],
+        alcoholicOrNot: apis[c][0].strAlcoholic || '',
         type: 'meal',
-        doneDate: '',
+        doneDate: newtoday,
       });
     } else if (drinks) {
       a.push({ id: apis[c][0].idDrink,
@@ -83,10 +87,10 @@ export default function RecipeInProgress() {
         name: apis[c][0].strDrink,
         category: apis[c][0].strCategory,
         image: apis[c][0].strDrinkThumb,
-        tags: apis[c][0].strTags || '',
-        alcoholicOrNot: apis[c][0].strDrinkAlternate || '',
+        tags: apis[c][0].strTags || [],
+        alcoholicOrNot: apis[c][0].strAlcoholic || '',
         type: 'drink',
-        doneDate: '',
+        doneDate: newtoday,
       });
     }
     localStorage.setItem('doneRecipes', JSON.stringify(a));
@@ -124,6 +128,7 @@ export default function RecipeInProgress() {
 
   return (
     <div>
+      <ButtonShareFavorite />
       {apis !== undefined ? (
         <div>
           {mealss && (
@@ -138,14 +143,6 @@ export default function RecipeInProgress() {
                 data-testid="recipe-photo"
                 alt="imagem receita em progresso"
               />
-              <button
-                type="button"
-                data-testid="share-btn"
-                onClick={ copiarTexto }
-              >
-                Share
-              </button>
-              <button type="button" data-testid="favorite-btn">Favorite</button>
               <p data-testid="recipe-category">{ apis.meals[0].strCategory }</p>
               <p
                 data-testid="instructions"
@@ -153,6 +150,7 @@ export default function RecipeInProgress() {
                 { apis.meals[0].strInstructions }
               </p>
               <button
+                className="finishbtn"
                 disabled={ !!bool.includes('false') }
                 type="button"
                 data-testid="finish-recipe-btn"
@@ -167,13 +165,12 @@ export default function RecipeInProgress() {
                   key={ index }
                   htmlFor="sa"
                   data-testid={ `${index}-ingredient-step` }
+                  style={ { textDecoration: stringIngredients.includes(element[0])
+                    ? 'line-through solid rgb(0, 0, 0)' : '' } }
                 >
-                  <h2
-                    style={ { textDecoration: stringIngredients.includes(element[0])
-                      ? 'line-through solid rgb(0, 0, 0)' : '' } }
-                  >
+                  <p>
                     {element[0]}
-                  </h2>
+                  </p>
                   <input
                     type="checkbox"
                     defaultChecked={ stringIngredients.includes(element[0]) }
@@ -195,14 +192,6 @@ export default function RecipeInProgress() {
                 data-testid="recipe-photo"
                 alt="imagem receita em progresso"
               />
-              <button
-                type="button"
-                data-testid="share-btn"
-                onClick={ copiarTexto }
-              >
-                Share
-              </button>
-              <button type="button" data-testid="favorite-btn">Favorite</button>
               <p data-testid="recipe-category">{ apis.drinks[0].strCategory }</p>
               <p
                 data-testid="instructions"
@@ -210,6 +199,7 @@ export default function RecipeInProgress() {
                 { apis.drinks[0].strInstructions }
               </p>
               <button
+                className="finishbtn"
                 disabled={ !!bool.includes('false') }
                 type="button"
                 data-testid="finish-recipe-btn"
@@ -223,14 +213,13 @@ export default function RecipeInProgress() {
                   key={ index }
                   htmlFor="sass"
                   data-testid={ `${index}-ingredient-step` }
+                  style={ { textDecoration: stringIngredients.includes(element[0])
+                    ? 'line-through solid rgb(0, 0, 0)'
+                    : 'none solid rgb(33, 37, 41)' } }
                 >
-                  <h2
-                    style={ { textDecoration: stringIngredients.includes(element[0])
-                      ? 'line-through solid rgb(0, 0, 0)'
-                      : 'none solid rgb(33, 37, 41)' } }
-                  >
+                  <p>
                     {element[0]}
-                  </h2>
+                  </p>
                   <input
                     type="checkbox"
                     defaultChecked={ stringIngredients.includes(element[0]) }

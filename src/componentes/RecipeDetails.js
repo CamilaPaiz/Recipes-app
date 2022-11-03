@@ -80,7 +80,7 @@ export default function RecipeDetails() {
     }
   };
   return (
-    <div>
+    <div className="recipedetailbackg">
       <ButtonShareFavorite />
       {
         drinkRoute && detailsIDDrinks.drinks.map((item, index) => (

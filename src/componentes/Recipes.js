@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+import '../style/recipe.css';
 
 export default function Recipes() {
   const [dataMeals, setDataMeals] = useState([]);
@@ -92,6 +93,7 @@ export default function Recipes() {
   return (
     <div>
       <button
+        className="allbutton"
         type="button"
         data-testid="All-category-filter"
         onClick={ requestTodasCategorias }
@@ -100,8 +102,9 @@ export default function Recipes() {
       </button>
       {
         (history.location.pathname === '/meals') && (dataCategoryMeals.map((e, indx) => (
-          <div key={ indx }>
+          <div className="div-buttons" key={ indx }>
             <button
+              className="buttons"
               type="button"
               onClick={ () => { requestMealsPorCategory(e.strCategory); } }
               data-testid={ `${e.strCategory}-category-filter` }
@@ -155,8 +158,9 @@ export default function Recipes() {
       }
       {
         (history.location.pathname === '/drinks') && dataCategoryDrinks.map((el, idx) => (
-          <div key={ idx }>
+          <div className="div-buttons" key={ idx }>
             <button
+              className="buttons"
               type="button"
               data-testid={ `${el.strCategory}-category-filter` }
               onClick={ () => { requestMealsPorCategory(el.strCategory); } }
