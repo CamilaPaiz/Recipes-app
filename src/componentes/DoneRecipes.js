@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import Header from './Header';
 import '../style/donerecipe.css';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes() {
   const [recipe, setRecipe] = useState([]);
-  const [copy, setCopy] = useState(false);
+  const [copyUrl, setCopy] = useState(false);
+  /* const [id, setId] = useState(''); */
   const { location } = useHistory();
+
   const handleLocalStorage = () => {
     const donerecipe = JSON.parse(localStorage.getItem('doneRecipes')) || [];
     setRecipe(donerecipe);
@@ -56,7 +59,7 @@ function DoneRecipes() {
                   />
 
                 </button>
-                {copy && <span>Link copied!</span>}
+                {copyUrl && <span>Link copied!</span>}
                 {item.type === 'meal' ? (
                   <div>
                     <p
@@ -64,23 +67,11 @@ function DoneRecipes() {
                     >
                       {`${item.nationality} - ${item.category}`}
                     </p>
-                    {(item.tags).length > 1 ? (
-                      <div>
-                        <p data-testid={ `${index}-${item.tags}-horizontal-tag` }>
-                          {item[0].tags}
-                        </p>
-                        <p
-                          data-testid={ `${index}-${item.tags}-horizontal-tag` }
-                        >
-                          {item[1].tags}
-                        </p>
-                      </div>
-                    )
-                      : (
-                        <p data-testid={ `${index}-${item.tags}-horizontal-tag` }>
-                          {item.tags}
-                        </p>
-                      )}
+                    { item.tags?.map((el, i) => (
+                      <p key={ i } data-testid={ `${i}-${el.tags}-horizontal-tag` }>
+                        {el}
+                      </p>
+                    ))}
                   </div>)
                   : (
                     <div>
