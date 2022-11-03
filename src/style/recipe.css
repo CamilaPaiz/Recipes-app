@@ -16,3 +16,6 @@
   width: 85px;
 }
 
+.div-buttons {
+  display: flex;
+}
