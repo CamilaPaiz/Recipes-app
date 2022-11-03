@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Header from './Header';
 import '../style/donerecipe.css';
@@ -9,7 +9,7 @@ function DoneRecipes() {
   const [recipe, setRecipe] = useState([]);
   const [copyUrl, setCopy] = useState(false);
   /* const [id, setId] = useState(''); */
-  const { location } = useHistory();
+  // const { location } = useHistory();
 
   const handleLocalStorage = () => {
     const donerecipe = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -17,9 +17,17 @@ function DoneRecipes() {
   };
   const handleShareBtn = async () => {
     const TIME = 2000;
-    const urlCopied = `http://localhost:3000${location.pathname}`;
+    let url;
+    // const { meals, drinks } = recipe;
+    // console.log(meals);
+    if (recipe[0].type === 'meal') {
+      url = `http://localhost:3000/meals/${recipe[0].id}`;
+    } else if (recipe[0].type === 'drink') {
+      url = `http://localhost:3000/drinks/${recipe[0].id}`;
+    }
     setCopy(true);
-    await copy(urlCopied);
+    await copy(url);
+    console.log(url);
     setTimeout(() => setCopy(false), TIME);
   };
 
