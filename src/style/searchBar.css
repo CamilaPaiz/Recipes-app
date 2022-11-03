@@ -1,0 +1,46 @@
+.search-input {
+  background: whitesmoke;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 40px;
+  left: 11px;
+  top: 168px;
+  width: 338px;
+}
+
+.radiofilter1 {
+  background: #fcc436;
+  border-radius: 6px;
+  height: 10px;
+  left: 75.92px;
+  top: 224px;
+  width: 10.3px;
+}
+
+.radiofilter2 {
+  background: #fff;
+  border-radius: 6px;
+  height: 10px;
+  left: 157.33px;
+  top: 222px;
+  width: 10.3px;
+}
+
+.radiofilter3 {
+  background: #fff;
+  border-radius: 6px;
+  height: 10px;
+  left: 219.16px;
+  top: 222px;
+  width: 10.3px;
+}
+
+.btnsearch {
+  background: #e4fdff;
+  border-radius: 5px;
+  height: 25px;
+  left: 73.86px;
+  top: 243px;
+  width: 208.16px;
+}

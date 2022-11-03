@@ -1,0 +1,15 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.donerecipe {
+  background-color: #111a35;
+  color: white;
+  width: 360px;
+}

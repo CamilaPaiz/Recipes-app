@@ -2,3 +2,15 @@
   bottom: 0;
   position: fixed;
 }
+
+.drinkicon {
+  background-color: #9ed7ff;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.mealsicon {
+  background-color: #9ed7ff;
+  border-radius: 10px;
+  width: 100%;
+}

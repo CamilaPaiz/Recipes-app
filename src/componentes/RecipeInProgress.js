@@ -64,17 +64,22 @@ export default function RecipeInProgress() {
     const as = [];
     const obj = JSON.parse(localStorage.getItem('doneRecipes')) || as;
     const a = obj;
-    console.log(apis[c][0]);
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const newtoday = today.toISOString();
+
     if (mealss) {
+      const tags = apis[c][0].strTags;
+      const newtags = (tags.split(','));
       a.push({ id: apis[c][0].idMeal,
         nationality: apis[c][0].strArea || '',
         name: apis[c][0].strMeal,
         category: apis[c][0].strCategory,
         image: apis[c][0].strMealThumb,
-        tags: [apis[c][0].strTags] || [],
-        alcoholicOrNot: apis[c][0].strMealAlternate || '',
+        tags: newtags || [],
+        alcoholicOrNot: apis[c][0].strAlcoholic || '',
         type: 'meal',
-        doneDate: '',
+        doneDate: newtoday,
       });
     } else if (drinks) {
       a.push({ id: apis[c][0].idDrink,
@@ -82,10 +87,10 @@ export default function RecipeInProgress() {
         name: apis[c][0].strDrink,
         category: apis[c][0].strCategory,
         image: apis[c][0].strDrinkThumb,
-        tags: [apis[c][0].strTags] || [],
-        alcoholicOrNot: apis[c][0].strDrinkAlternate || '',
+        tags: apis[c][0].strTags || [],
+        alcoholicOrNot: apis[c][0].strAlcoholic || '',
         type: 'drink',
-        doneDate: '',
+        doneDate: newtoday,
       });
     }
     localStorage.setItem('doneRecipes', JSON.stringify(a));
@@ -145,6 +150,7 @@ export default function RecipeInProgress() {
                 { apis.meals[0].strInstructions }
               </p>
               <button
+                className="finishbtn"
                 disabled={ !!bool.includes('false') }
                 type="button"
                 data-testid="finish-recipe-btn"
@@ -159,13 +165,12 @@ export default function RecipeInProgress() {
                   key={ index }
                   htmlFor="sa"
                   data-testid={ `${index}-ingredient-step` }
+                  style={ { textDecoration: stringIngredients.includes(element[0])
+                    ? 'line-through solid rgb(0, 0, 0)' : '' } }
                 >
-                  <h2
-                    style={ { textDecoration: stringIngredients.includes(element[0])
-                      ? 'line-through solid rgb(0, 0, 0)' : '' } }
-                  >
+                  <p>
                     {element[0]}
-                  </h2>
+                  </p>
                   <input
                     type="checkbox"
                     defaultChecked={ stringIngredients.includes(element[0]) }
@@ -194,6 +199,7 @@ export default function RecipeInProgress() {
                 { apis.drinks[0].strInstructions }
               </p>
               <button
+                className="finishbtn"
                 disabled={ !!bool.includes('false') }
                 type="button"
                 data-testid="finish-recipe-btn"
@@ -207,14 +213,13 @@ export default function RecipeInProgress() {
                   key={ index }
                   htmlFor="sass"
                   data-testid={ `${index}-ingredient-step` }
+                  style={ { textDecoration: stringIngredients.includes(element[0])
+                    ? 'line-through solid rgb(0, 0, 0)'
+                    : 'none solid rgb(33, 37, 41)' } }
                 >
-                  <h2
-                    style={ { textDecoration: stringIngredients.includes(element[0])
-                      ? 'line-through solid rgb(0, 0, 0)'
-                      : 'none solid rgb(33, 37, 41)' } }
-                  >
+                  <p>
                     {element[0]}
-                  </h2>
+                  </p>
                   <input
                     type="checkbox"
                     defaultChecked={ stringIngredients.includes(element[0]) }

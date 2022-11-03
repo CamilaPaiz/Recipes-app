@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import '../style/header.css';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
 function Header() {
   const [input, setInput] = useState(false);
@@ -27,20 +30,27 @@ function Header() {
     titulo = 'Favorite Recipes';
   }
   return (
-    <div>
+    <div className="header">
       {localizacao === 'meals'
         || localizacao === 'drinks'
         || localizacao === 'profile'
         || localizacao === done || localizacao === favoriteRecipes ? (
           <div>
-            <h2 data-testid="page-title">{titulo !== undefined && titulo}</h2>
+            <h2
+              className="header-title"
+              data-testid="page-title"
+            >
+              {titulo !== undefined && titulo}
+
+            </h2>
             <button
               type="button"
               onClick={ () => history.push('/profile') }
             >
               <img
+                className="profileicon"
                 data-testid="profile-top-btn"
-                src="../images/profileIcon.svg"
+                src={ profileIcon }
                 alt="Perfil"
               />
             </button>
@@ -49,8 +59,9 @@ function Header() {
               ? (
                 <button type="button" onClick={ () => { click(input); } }>
                   <img
+                    className="searchicon"
                     data-testid="search-top-btn"
-                    src="../images/searchIcon.svg"
+                    src={ searchIcon }
                     alt="Pesquisar"
                   />
                 </button>

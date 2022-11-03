@@ -1,0 +1,65 @@
+.email {
+  border: 0.5px solid #41197f;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+  left: 42px;
+  margin-left: 50px;
+
+  /*  position: absolute; */
+  text-align: center;
+  top: 564px;
+  width: 276px;
+}
+
+.password {
+  border: 0.5px solid #41197f;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+  left: 42px;
+  margin-left: 50px;
+
+  /* position: absolute; */
+  text-align: center;
+  top: 613px;
+  width: 276px;
+}
+
+.button {
+  background: #9ed7ff;
+  border-radius: 5px;
+  color: black;
+  font-weight: 700;
+  height: 40px;
+  left: 42px;
+  margin-left: 50px;
+
+  /* position: absolute; */
+  top: 662px;
+  width: 276px;
+}
+
+.login-title {
+  color: whitesmoke;
+  font-family: Cambria , Cochin , Georgia , Times , Times New Roman , serif;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.165em;
+  line-height: 20px;
+
+  /* identical to box height */
+  text-align: center;
+  text-transform: uppercase;
+  width: 360px;
+}
+
+.login {
+  background-color: #111a35;
+  color: whitesmoke;
+}
