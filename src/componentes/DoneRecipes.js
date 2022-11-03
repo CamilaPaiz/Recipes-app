@@ -76,7 +76,7 @@ function DoneRecipes() {
                       {`${item.nationality} - ${item.category}`}
                     </p>
                     { item.tags?.map((el, i) => (
-                      <p key={ i } data-testid={ `${i}-${el.tags}-horizontal-tag` }>
+                      <p key={ i } data-testid={ `${index}-${el}-horizontal-tag` }>
                         {el}
                       </p>
                     ))}
