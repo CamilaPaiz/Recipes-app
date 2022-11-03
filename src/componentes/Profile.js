@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import RecipeContext from '../context/RecipeContext';
+import '../style/profile.css';
 
 function Profile() {
   const history = useHistory();
@@ -18,12 +19,12 @@ function Profile() {
   }, []);
 
   return (
-    <div>
+    <div className="profile">
       <Header />
-      <h2 data-testid="profile-email">{email.email}</h2>
-      <p>testando quebras de requisito</p>
+      <h3 data-testid="profile-email">{email.email}</h3>
       <br />
       <button
+        className="buttondone"
         type="button"
         data-testid="profile-done-btn"
         onClick={ () => history.push('/done-recipes') }
@@ -31,6 +32,7 @@ function Profile() {
         Done Recipes
       </button>
       <button
+        className="buttonfav"
         type="button"
         data-testid="profile-favorite-btn"
         onClick={ () => history.push('/favorite-recipes') }
@@ -39,6 +41,7 @@ function Profile() {
 
       </button>
       <button
+        className="buttonlogout"
         type="button"
         data-testid="profile-logout-btn"
         onClick={ handleClickLogout }

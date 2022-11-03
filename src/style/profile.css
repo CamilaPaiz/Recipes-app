@@ -1,0 +1,41 @@
+.profile {
+  background-color: #111a35;
+  color: white;
+
+  /* display: flex;
+  flex-direction: column; */
+  width: 360px;
+}
+
+.buttondone {
+  background: #e4fdff;
+  border-radius: 5px;
+  font-weight: 700;
+  height: 50px;
+  left: 13px;
+  margin-left: 10px;
+  top: 1137px;
+  width: 100px;
+}
+
+.buttonfav {
+  background: #9ed7ff;
+  border-radius: 5px;
+  font-weight: 700;
+  height: 50px;
+  left: 13px;
+  margin-left: 10px;
+  top: 1137px;
+  width: 100px;
+}
+
+.buttonlogout {
+  background: #e4fdff;
+  border-radius: 5px;
+  font-weight: 700;
+  height: 40px;
+  left: 13px;
+  margin-left: 30px;
+  top: 1137px;
+  width: 95px;
+}

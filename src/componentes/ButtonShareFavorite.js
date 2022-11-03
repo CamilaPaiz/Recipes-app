@@ -1,16 +1,19 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import RecipeContext from '../context/RecipeContext';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHearticon from '../images/blackHeartIcon.svg';
 
 export default function ButtonShareFavorite() {
   const { favorite/* , setFavorite  */ } = useContext(RecipeContext);
-  console.log(favorite);
+  // console.log(favorite);
   const { location } = useHistory();
   const params = useParams();
   const [copyUrl, setCopy] = useState(false);
+  const [heart, setHeart] = useState(false);
+
   const handleShareBtn = async () => {
     const TIME = 2000;
     const urlCopied = `http://localhost:3000${location.pathname}`;
@@ -20,8 +23,17 @@ export default function ButtonShareFavorite() {
     console.log(copy(urlCopied));
   };
 
+  const searchFavorite = () => {
+    const favoriteRecipes = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+    const favoriteReponse = favoriteRecipes.some(({ id }) => id === params.id);
+
+    if (favoriteReponse) setHeart(!heart);
+  };
+
   const handleFavoriteBtn = () => {
-    const { meals, drinks } = favorite;
+    const newFavorite = [...favorite];
+    const { meals, drinks } = newFavorite[0];
     let recipe;
     if (location.pathname === `/meals/${params.id}`) {
       recipe = {
@@ -44,20 +56,33 @@ export default function ButtonShareFavorite() {
         image: drinks[0].strDrinkThumb,
       };
     }
-    console.log(recipe);
-    const favoritList = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-    const favoriteList = [...favoritList, recipe];
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteList));
+    setHeart(!heart);
+    const favoritList = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (favoritList.some(({ id }) => id === params.id)) {
+      const teste = favoritList.filter(({ id }) => id !== params.id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(teste));
+    } else {
+      const favoriteList = [...favoritList, recipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteList));
+    }
   };
+
+  useEffect(() => {
+    searchFavorite();
+  }, []);
 
   return (
     <div>
       <button
         type="button"
-        data-testid="favorite-btn"
         onClick={ () => handleFavoriteBtn() }
       >
-        <img src={ whiteHeartIcon } alt="whiteHeartIcon" />
+        <img
+          src={ heart ? blackHearticon : whiteHeartIcon }
+          alt="blackHearticon"
+          data-testid="favorite-btn"
+        />
       </button>
       <button
         type="button"

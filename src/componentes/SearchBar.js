@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 // import { useHistory } from 'react-router-dom';
 // import { FaSearch } from 'react-icons/fa';
 import RecipeContext from '../context/RecipeContext';
+import '../style/searchBar.css';
 
 export default function SearchBar() {
   const { searchInput,
@@ -10,86 +11,12 @@ export default function SearchBar() {
     handleBtnSearch,
   } = useContext(RecipeContext);
 
-  /*  const history = useHistory();
-
-  // const [data, setData] = useState([]);
-
-  const requestApiMeal = async () => {
-    if (radioFilter === 'ingredientRadio') {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'nameRadio') {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result.meals);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
-      const endPointIngredient = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else {
-      global.alert('Your search must have only 1 (one) character');
-    }
-  };
-
-  const requestApiDrink = async () => {
-    if (radioFilter === 'ingredientRadio') {
-      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'nameRadio') {
-      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result.meals);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else if (radioFilter === 'firstletterRadio' && searchInput.length === 1) {
-      const endPointIngredient = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      try {
-        const response = await fetch(endPointIngredient);
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      } catch (e) { throw new Error(e.message); }
-    } else {
-      global.alert('Your search must have only 1 (one) character');
-    }
-  };
-
-  const handleBtnSearch = async () => {
-    const { location } = history;
-    if (location.pathname === '/meals') {
-      requestApiMeal();
-    } if (location.pathname === '/drinks') {
-      requestApiDrink();
-    }
-  }; */
   return (
     <form>
-      {/* <button type="button" data-testid="search-top-btn">
-        <FaSearch />
-      </button> */}
       <br />
       <label htmlFor="search-input">
         <input
+          className="searchinput"
           type="test"
           id="search-input"
           data-testid="search-input"
@@ -100,6 +27,7 @@ export default function SearchBar() {
       <br />
       <label htmlFor="radioFilter">
         <input
+          className="radiofilter1"
           type="radio"
           name="radioFilter"
           data-testid="ingredient-search-radio"
@@ -108,6 +36,7 @@ export default function SearchBar() {
         />
         Ingredient
         <input
+          className="radiofilter2"
           type="radio"
           name="radioFilter"
           data-testid="name-search-radio"
@@ -116,6 +45,7 @@ export default function SearchBar() {
         />
         Name
         <input
+          className="radiofilter3"
           type="radio"
           name="radioFilter"
           data-testid="first-letter-search-radio"
@@ -126,6 +56,7 @@ export default function SearchBar() {
       </label>
       <br />
       <button
+        className="btnsearch"
         type="button"
         data-testid="exec-search-btn"
         onClick={ handleBtnSearch }

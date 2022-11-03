@@ -18,6 +18,7 @@ export default function RecipeDetails() {
   const [recomendations, setRecomendations] = useState([]);
   const [recomendationsD, setRecomendationsD] = useState([]);
   const [contador, setContador] = useState(1);
+  const [startRec/* , setstartRec */] = useState(true);
 
   const requestdetailsRecipe = async () => {
     let edId;
@@ -27,7 +28,7 @@ export default function RecipeDetails() {
     const result = await response.json();
     if (history.location.pathname === `/meals/${params.id}`) {
       setDetailsIDMeals(result);
-      setFavorite(result);
+      setFavorite([result]);
       const respondeApi = result.meals[0];
       const pegaIngrediente = Object.entries(respondeApi)
         .filter((ingred) => ingred[0].includes('strIngredient')
@@ -41,7 +42,7 @@ export default function RecipeDetails() {
       setdrinkRoute(false);
     } else if (history.location.pathname === `/drinks/${params.id}`) {
       setDetailsIDDrinks(result);
-      setFavorite(result);
+      setFavorite([result]);
       const respondeApiD = result.drinks[0];
       const pegaIngredienteD = Object.entries(respondeApiD)
         .filter((ingred) => ingred[0].includes('strIngredient')
@@ -79,7 +80,7 @@ export default function RecipeDetails() {
     }
   };
   return (
-    <div>
+    <div className="recipedetailbackg">
       <ButtonShareFavorite />
       {
         drinkRoute && detailsIDDrinks.drinks.map((item, index) => (
@@ -216,14 +217,17 @@ export default function RecipeDetails() {
           </div>
         ))
       }
+      <br />
+
       <button
         onClick={ handleClick }
         className="recipesDetails"
         data-testid="start-recipe-btn"
         type="button"
       >
-        Start Recipe
+        { startRec === false ? 'Start Recipe' : 'Continue Recipe' }
       </button>
+
     </div>
   );
 }
