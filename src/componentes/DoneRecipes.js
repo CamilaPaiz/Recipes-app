@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Header from './Header';
 import '../style/donerecipe.css';
@@ -9,7 +9,7 @@ function DoneRecipes() {
   const [recipe, setRecipe] = useState([]);
   const [copyUrl, setCopy] = useState(false);
   /* const [id, setId] = useState(''); */
-  // const { location } = useHistory();
+  const history = useHistory();
 
   const handleLocalStorage = () => {
     const donerecipe = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -31,6 +31,14 @@ function DoneRecipes() {
     setTimeout(() => setCopy(false), TIME);
   };
 
+  const handleHistoryPush = () => {
+    if (recipe[0].type === 'meal') {
+      history.push(`/meals/${recipe[0].id}`);
+    } else if (recipe[0].type === 'drink') {
+      history.push(`/drinks/${recipe[0].id}`);
+    }
+  };
+
   useEffect(() => {
     handleLocalStorage();
   }, []);
@@ -49,12 +57,21 @@ function DoneRecipes() {
           {
             recipe.map((item, index) => (
               <div key={ index }>
-                <img
-                  data-testid={ `${index}-horizontal-image` }
-                  alt="card-drink"
-                  src={ item.image }
-                />
-                <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+                <div>
+                  <img
+                    data-testid={ `${index}-horizontal-image` }
+                    alt="card-drink"
+                    src={ item.image }
+                    onClickCapture={ handleHistoryPush }
+                  />
+                </div>
+                <p
+                  onClickCapture={ handleHistoryPush }
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  {item.name}
+
+                </p>
                 <p data-testid={ `${index}-horizontal-done-date` }>{item.doneDate}</p>
                 <button
                   type="button"
