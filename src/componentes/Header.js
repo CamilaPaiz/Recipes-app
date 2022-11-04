@@ -17,7 +17,7 @@ function Header() {
   let titulo;
   const history = useHistory();
   const { location } = history;
-  console.log(location.pathname);
+  // console.log(location.pathname);
   const localizacao = location.pathname.substring(1);
   const done = 'done-recipes';
   const favoriteRecipes = 'favorite-recipes';
