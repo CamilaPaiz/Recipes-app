@@ -9,8 +9,8 @@ const entrieMeals = ['/meals/52777'];
 
 describe('verifica tela done recipes', () => {
   it('verifica renderização de done recipes-drinks', async () => {
-    const { history } = renderWithRouter(<App />, { initialEntries: ['/done-recipes'] });
-    /* const button = await screen.findByTestId('favorite-btn');
+    const { history } = renderWithRouter(<App />, { initialEntries: entrie });
+    const button = await screen.findByTestId('favorite-btn');
     expect(button).toBeInTheDocument();
     const btnstart = await screen.findByTestId('start-recipe-btn');
     expect(btnstart).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('verifica tela done recipes', () => {
     expect(btn).toBeEnabled();
     userEvent.click(btn);
     const btnPerfil = await screen.findByTestId('profile-top-btn');
-    expect(btnPerfil).toBeInTheDocument(); */
+    expect(btnPerfil).toBeInTheDocument();
     const btnAll = await screen.findByRole('button', { name: /all/i });
     expect(btnAll).toBeInTheDocument();
     const btnMeals = await screen.findByRole('button', { name: /meals/i });
@@ -40,11 +40,11 @@ describe('verifica tela done recipes', () => {
     const image = await screen.findByRole('img', { name: /card-drink/i });
     expect(image).toBeInTheDocument();
     userEvent.click(image);
-    expect(history.location.pathname).toBe(entrie);
+    expect(history.location.pathname).toBe('/drinks/12776');
   });
   it('verifica renderização de done recipes -meals', async () => {
-    const { history } = renderWithRouter(<App />, { initialEntries: ['/done-recipes'] });
-    /*  const button = await screen.findByTestId('favorite-btn');
+    const { history } = renderWithRouter(<App />, { initialEntries: entrieMeals });
+    const button = await screen.findByTestId('favorite-btn');
     expect(button).toBeInTheDocument();
     const btnstart = await screen.findByTestId('start-recipe-btn');
     expect(btnstart).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('verifica tela done recipes', () => {
     userEvent.click(btn);
     const btnPerfil = await screen.findByTestId('profile-top-btn');
     expect(btnPerfil).toBeInTheDocument();
-    expect(history.location.pathname).toBe('/done-recipes'); */
+    expect(history.location.pathname).toBe('/done-recipes');
     const btnAll = await screen.findByRole('button', { name: /all/i });
     expect(btnAll).toBeInTheDocument();
     const btnMeals = await screen.findByRole('button', { name: /meals/i });
@@ -88,6 +88,6 @@ describe('verifica tela done recipes', () => {
     const image = await screen.findByRole('img', { name: /card-meal/i });
     expect(image).toBeInTheDocument();
     userEvent.click(image);
-    expect(history.location.pathname).toBe(entrieMeals);
+    expect(history.location.pathname).toBe('/meals/52777');
   });
 });

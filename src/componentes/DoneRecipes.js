@@ -59,10 +59,11 @@ function DoneRecipes() {
               <div key={ index }>
                 <div>
                   <img
+                    className="image"
                     data-testid={ `${index}-horizontal-image` }
                     alt="card-drink"
                     src={ item.image }
-                    onClickCapture={ handleHistoryPush }
+                    onClickCapture={ () => handleHistoryPush() }
                   />
                 </div>
                 <p
