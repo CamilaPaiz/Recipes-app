@@ -1,4 +1,4 @@
- #Recipes-app
+ # Recipes-app
  
 Projeto em grupo realizado durante módulo de Front-end do curso de desenvolvimento web da Trybe.
 
