@@ -9,15 +9,14 @@ Foi desenvolvido um app de receitas, utilizando o que há de mais moderno dentro
 
 Nele será possível: ver, buscar, filtrar, favoritar e acompanhar o progresso de preparação de receitas de comidas e bebidas!
 
-**A base de dados seão 2 APIs distintas, uma para comidas e outra para bebidas.
+**A base de dados são 2 APIs distintas, uma para comidas e outra para bebidas.
 
 <p align="center">
   <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#information_source-como-usar">Como usar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
 
-## :rocket: Tecnologias
-
+## :rocket: <summary><strong>Tecnologias</strong></summary></br>
 Esse projeto foi desenvolvido usando as seguintes tecnologias:
 
 -  [React.js](https://reactjs.org/)
@@ -25,6 +24,8 @@ Esse projeto foi desenvolvido usando as seguintes tecnologias:
 -  [Figma](https://figma.com/)
 -  [VS Code](https://code.visualstudio.com/)
 
+
+<summary><strong>Como usar</strong></summary></br>
 ## :information_source: Como usar
 
 Para clonar e rodar a aplicação, você precisará do [Git](https://git-scm.com), [VS Code](https://code.visualstudio.com/), [Node.js](https://nodejs.org/) and [NPM](https://www.npmjs.com/) . Da linha de comando:
@@ -43,6 +44,8 @@ $ npm start
 
 <br/><br/>
 
+
+<summary><strong>Devs Responsáveis</strong></summary></br>
 <p>Projeto desenvolvido por:</p>
 <ul>
   <li><a href="https://github.com/CamilaPaiz"/>Camila Paiz</a></li>
