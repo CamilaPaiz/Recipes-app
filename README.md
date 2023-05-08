@@ -16,10 +16,6 @@ Nele será possível: ver, buscar, filtrar, favoritar e acompanhar o progresso d
   <a href="#information_source-como-usar">Como usar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
 
-<details>
-  <summary><strong>:memo: Tecnologias utilizadas</strong></summary><br />
-  
-
 ## :rocket:Tecnologias
 Esse projeto foi desenvolvido usando as seguintes tecnologias:
 
@@ -27,11 +23,6 @@ Esse projeto foi desenvolvido usando as seguintes tecnologias:
 -  [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 -  [Figma](https://figma.com/)
 -  [VS Code](https://code.visualstudio.com/)
-
-<details>
-
-<details>
-  <summary><strong>Como rodar o projeto</strong></summary></br>
 
 ## :information_source: Como usar
 
@@ -50,9 +41,6 @@ $ npm start
 ```
 
 <br/><br/>
-
-<details>
-  <summary><strong>Devs responsáveis</strong></summary>
 
 <p>Projeto desenvolvido por:</p>
 <ul>
