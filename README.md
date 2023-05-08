@@ -16,7 +16,11 @@ Nele será possível: ver, buscar, filtrar, favoritar e acompanhar o progresso d
   <a href="#information_source-como-usar">Como usar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
 
-## :rocket: <summary><strong>Tecnologias</strong></summary></br>
+<details>
+  <summary><strong>:memo: Tecnologias utilizadas</strong></summary><br />
+  
+
+## :rocket:Tecnologias
 Esse projeto foi desenvolvido usando as seguintes tecnologias:
 
 -  [React.js](https://reactjs.org/)
@@ -25,7 +29,9 @@ Esse projeto foi desenvolvido usando as seguintes tecnologias:
 -  [VS Code](https://code.visualstudio.com/)
 
 
-<summary><strong>Como usar</strong></summary></br>
+<details>
+  <summary><strong>Como rodar o projeto</strong></summary></br>
+
 ## :information_source: Como usar
 
 Para clonar e rodar a aplicação, você precisará do [Git](https://git-scm.com), [VS Code](https://code.visualstudio.com/), [Node.js](https://nodejs.org/) and [NPM](https://www.npmjs.com/) . Da linha de comando:
@@ -44,8 +50,9 @@ $ npm start
 
 <br/><br/>
 
+<details>
+  <summary><strong>Devs responsáveis</strong></summary>
 
-<summary><strong>Devs Responsáveis</strong></summary></br>
 <p>Projeto desenvolvido por:</p>
 <ul>
   <li><a href="https://github.com/CamilaPaiz"/>Camila Paiz</a></li>
