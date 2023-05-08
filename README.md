@@ -9,7 +9,7 @@ Foi desenvolvido um app de receitas, utilizando o que há de mais moderno dentro
 
 Nele será possível: ver, buscar, filtrar, favoritar e acompanhar o progresso de preparação de receitas de comidas e bebidas!
 
-**A base de dados são 2 APIs distintas, uma para comidas e outra para bebidas.
+** A base de dados são 2 APIs distintas, uma para comidas e outra para bebidas.
 
 <p align="center">
   <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -28,6 +28,7 @@ Esse projeto foi desenvolvido usando as seguintes tecnologias:
 -  [Figma](https://figma.com/)
 -  [VS Code](https://code.visualstudio.com/)
 
+<details>
 
 <details>
   <summary><strong>Como rodar o projeto</strong></summary></br>
